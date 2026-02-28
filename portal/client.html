@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Compliance Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;700;900&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal: #1aad9d;
+      --teal-light: #edfcfa;
+      --teal-mid: #7eeade;
+      --ink: #0c0e12;
+      --ink-mid: #505970;
+      --ink-light: #8e97ae;
+      --border: #e5e7eb;
+      --red: #ef4444;
+      --amber: #f59e0b;
+      --green: #22c55e;
+      --bg: #f0f4f8;
+    }
+
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* TOP BAR */
+    .topbar {
+      background: var(--ink);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,.3);
+    }
+    .topbar-brand { display: flex; align-items: center; gap: 10px; }
+    .topbar-mark {
+      width: 30px; height: 30px; border-radius: 7px;
+      background: var(--teal);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-weight: 900; font-size: 14px; color: var(--ink);
+    }
+    .topbar-name { font-weight: 700; font-size: 15px; color: white; }
+    .topbar-powered { font-size: 11px; color: rgba(255,255,255,.3); }
+
+    /* CONTENT */
+    .content { max-width: 680px; margin: 0 auto; padding: 32px 16px 80px; }
+
+    /* WELCOME CARD */
+    .welcome-card {
+      background: var(--ink);
+      border-radius: 20px;
+      padding: 32px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.06);
+    }
+    .welcome-card::before {
+      content: '';
+      position: absolute; top: -80px; right: -80px;
+      width: 240px; height: 240px;
+      background: radial-gradient(circle, rgba(26,173,157,.18) 0%, transparent 60%);
+    }
+    .welcome-client {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-size: 1.9rem; font-weight: 900; color: white;
+      letter-spacing: -0.04em; margin-bottom: 4px;
+      position: relative;
+    }
+    .welcome-sub { font-size: 13px; color: rgba(255,255,255,.45); position: relative; }
+    .welcome-bookkeeper {
+      margin-top: 20px;
+      display: flex; align-items: center; gap: 10px;
+      position: relative;
+    }
+    .bk-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--teal);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800; color: var(--ink);
+    }
+    .bk-name  { font-size: 13px; font-weight: 600; color: rgba(255,255,255,.8); }
+    .bk-label { font-size: 11px; color: rgba(255,255,255,.35); }
+
+    /* SECTION */
+    .section { margin-bottom: 28px; }
+    .section-title {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--ink-light);
+      margin-bottom: 12px;
+    }
+
+    /* DEADLINE CARD */
+    .deadline-card {
+      background: white; border-radius: 16px;
+      padding: 18px 20px; border: 1.5px solid var(--border);
+      margin-bottom: 10px; transition: all .15s;
+    }
+    .deadline-card.urgent { border-color: #fca5a5; background: #fff5f5; }
+    .deadline-card.soon   { border-color: #fcd34d; background: #fffbeb; }
+    .deadline-card.ok     { border-color: #86efac; background: #f0fdf4; }
+    .dl-name { font-weight: 700; font-size: 15px; color: var(--ink); margin-bottom: 4px; }
+    .dl-meta { font-size: 13px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .dl-due  { font-weight: 700; }
+    .dl-due.red   { color: var(--red); }
+    .dl-due.amber { color: var(--amber); }
+    .dl-due.green { color: var(--green); }
+    .dl-type-tag {
+      display: inline-block; font-size: 10px; font-weight: 800;
+      text-transform: uppercase; letter-spacing: .05em;
+      padding: 2px 8px; border-radius: 20px;
+    }
+    .dl-type-tag.bas   { background: #e0f2fe; color: #0369a1; }
+    .dl-type-tag.super { background: #ede9fe; color: #6d28d9; }
+    .dl-type-tag.payg  { background: #fef3c7; color: #92400e; }
+    .dl-type-tag.tax   { background: #f0fdf4; color: #15803d; }
+
+    /* DOC REQUEST */
+    .doc-request-card {
+      background: white; border-radius: 16px;
+      padding: 18px 20px; border: 1.5px solid var(--border);
+      margin-bottom: 10px;
+    }
+    .doc-request-card.needs-action { border-color: #fcd34d; }
+    .dr-title { font-weight: 700; font-size: 14px; color: var(--ink); margin-bottom: 4px; }
+    .dr-note  { font-size: 13px; color: var(--ink-mid); margin-bottom: 14px; line-height: 1.5; }
+
+    /* UPLOAD ZONE */
+    .upload-zone {
+      border: 2px dashed var(--border); border-radius: 12px;
+      padding: 24px; text-align: center; cursor: pointer;
+      transition: all .2s; background: #fafafa;
+      position: relative; overflow: hidden;
+    }
+    .upload-zone:hover, .upload-zone.dragging {
+      border-color: var(--teal); background: var(--teal-light);
+    }
+    .upload-zone input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .upload-icon { font-size: 28px; margin-bottom: 8px; }
+    .upload-title { font-weight: 700; font-size: 14px; color: var(--ink); margin-bottom: 3px; }
+    .upload-sub   { font-size: 12px; color: var(--ink-light); }
+    .upload-types { font-size: 11px; color: #d1d5db; margin-top: 6px; }
+
+    /* MOBILE CAMERA BTN */
+    .camera-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: var(--ink); color: white; border: none;
+      border-radius: 12px; padding: 12px 20px;
+      font-family: 'Instrument Sans', sans-serif; font-size: 14px; font-weight: 700;
+      cursor: pointer; width: 100%; margin-top: 10px; transition: all .15s;
+    }
+    .camera-btn:hover { background: #1f2937; }
+    .camera-btn-icon { font-size: 18px; }
+
+    /* UPLOADED FILE PREVIEW */
+    .file-preview-row {
+      display: flex; align-items: center; gap: 12px;
+      background: white; border-radius: 10px; padding: 10px 14px;
+      border: 1px solid var(--border); margin-top: 8px;
+      animation: fadeUp .2s ease;
+    }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+    .file-thumb { width: 42px; height: 42px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); flex-shrink: 0; background: #f8fafc; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+    .file-info { flex: 1; }
+    .file-name { font-weight: 600; font-size: 13px; }
+    .file-size { font-size: 11px; color: var(--ink-light); }
+    .file-status { font-size: 11px; font-weight: 700; }
+    .file-status.uploading { color: var(--teal); }
+    .file-status.done { color: var(--green); }
+
+    /* APPROVE CARD */
+    .approve-card {
+      background: white; border-radius: 16px;
+      padding: 24px; border: 2px solid var(--teal);
+    }
+    .approve-title { font-weight: 700; font-size: 16px; color: var(--ink); margin-bottom: 6px; }
+    .approve-desc  { font-size: 13px; color: var(--ink-mid); line-height: 1.6; margin-bottom: 18px; }
+    .approve-figures {
+      background: var(--ink); border-radius: 12px; padding: 18px;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+      margin-bottom: 16px;
+    }
+    .fig { text-align: center; }
+    .fig-label { font-size: 10px; color: rgba(255,255,255,.4); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+    .fig-value { font-family: 'Cabinet Grotesk', sans-serif; font-size: 1.1rem; font-weight: 900; color: white; letter-spacing: -0.02em; }
+    .disclaimer { font-size: 11px; color: var(--ink-light); margin-bottom: 16px; font-style: italic; text-align: center; }
+    .approve-btn {
+      width: 100%; background: var(--teal); color: white;
+      border: none; border-radius: 12px; padding: 14px;
+      font-family: 'Instrument Sans', sans-serif; font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: all .15s;
+    }
+    .approve-btn:hover { background: #169e90; transform: translateY(-1px); }
+    .approve-btn:disabled { background: var(--green); cursor: default; transform: none; }
+
+    /* MESSAGE THREAD */
+    .message-thread { display: flex; flex-direction: column; gap: 10px; }
+    .msg {
+      padding: 12px 16px; border-radius: 14px; max-width: 88%;
+      font-size: 13.5px; line-height: 1.6;
+    }
+    .msg.from-bk   { background: white; border: 1px solid var(--border); align-self: flex-start; }
+    .msg.from-me   { background: var(--teal); color: white; align-self: flex-end; }
+    .msg-who { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+    .msg.from-bk .msg-who { color: var(--ink-light); }
+    .msg.from-me .msg-who { color: rgba(255,255,255,.6); }
+    .msg-time { font-size: 10px; color: var(--ink-light); margin-top: 4px; }
+    .msg.from-me .msg-time { color: rgba(255,255,255,.5); }
+
+    .reply-bar {
+      display: flex; gap: 10px; margin-top: 14px; align-items: flex-end;
+      background: white; border: 1.5px solid var(--border); border-radius: 14px;
+      padding: 10px 14px;
+    }
+    .reply-input {
+      flex: 1; border: none; outline: none; resize: none;
+      font-family: 'Instrument Sans', sans-serif; font-size: 14px; color: var(--ink);
+      line-height: 1.5; max-height: 120px;
+    }
+    .reply-send {
+      background: var(--teal); color: white; border: none;
+      border-radius: 10px; padding: 8px 16px; font-weight: 700;
+      cursor: pointer; font-size: 13px; flex-shrink: 0; transition: all .15s;
+    }
+    .reply-send:hover { background: #169e90; }
+
+    /* TOAST */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: var(--ink); color: white; padding: 12px 20px;
+      border-radius: 12px; font-size: 14px; font-weight: 500;
+      box-shadow: 0 8px 32px rgba(0,0,0,.3);
+      animation: toastIn .25s ease;
+      z-index: 999;
+    }
+    @keyframes toastIn { from { opacity:0; transform:translateX(-50%) translateY(10px); } to { opacity:1; transform:translateX(-50%) translateY(0); } }
+
+    /* APPROVED STATE */
+    .approved-banner {
+      background: #f0fdf4; border: 2px solid #86efac; border-radius: 16px;
+      padding: 24px; text-align: center;
+    }
+    .approved-icon { font-size: 40px; margin-bottom: 10px; }
+    .approved-title { font-weight: 800; font-size: 18px; color: #15803d; margin-bottom: 6px; }
+    .approved-sub { font-size: 13px; color: #4ade80; }
+
+    @media (max-width: 480px) {
+      .approve-figures { grid-template-columns: 1fr 1fr; }
+      .content { padding: 20px 12px 60px; }
+      .welcome-client { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-mark">C</div>
+      <div>
+        <div class="topbar-name">ComplianceEase</div>
+      </div>
+    </div>
+    <div class="topbar-powered">Secure client portal</div>
+  </div>
+
+  <div class="content">
+
+    <!-- Welcome -->
+    <div class="welcome-card">
+      <div class="welcome-client">Smith Plumbing</div>
+      <div class="welcome-sub">Your compliance portal · ABN 12 345 678 901</div>
+      <div class="welcome-bookkeeper">
+        <div class="bk-avatar">YP</div>
+        <div>
+          <div class="bk-name">Your Bookkeeper</div>
+          <div class="bk-label">Managing your BAS, super &amp; PAYG</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Deadlines -->
+    <div class="section">
+      <div class="section-title">Your Upcoming Obligations</div>
+
+      <div class="deadline-card urgent">
+        <div class="dl-name">Quarterly BAS — January to March 2025</div>
+        <div class="dl-meta">
+          <span class="dl-type-tag bas">BAS</span>
+          <span class="dl-due red">⚠️ Due TODAY — 28 March 2025</span>
+        </div>
+      </div>
+
+      <div class="deadline-card soon">
+        <div class="dl-name">PAYG Withholding — March 2025</div>
+        <div class="dl-meta">
+          <span class="dl-type-tag payg">PAYG</span>
+          <span class="dl-due amber">Due in 2 days — 30 March 2025</span>
+        </div>
+      </div>
+
+      <div class="deadline-card soon">
+        <div class="dl-name">Super Guarantee — Q3 FY2024–25</div>
+        <div class="dl-meta">
+          <span class="dl-type-tag super">Super</span>
+          <span class="dl-due amber">Due in 31 days — 28 April 2025</span>
+        </div>
+      </div>
+
+      <div class="deadline-card ok">
+        <div class="dl-name">Annual Tax Return — FY2024–25</div>
+        <div class="dl-meta">
+          <span class="dl-type-tag tax">Tax</span>
+          <span class="dl-due green">Due 31 October 2025 — plenty of time</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Document requests -->
+    <div class="section">
+      <div class="section-title">Documents Needed From You</div>
+
+      <!-- Request 1 — needs upload -->
+      <div class="doc-request-card needs-action">
+        <div class="dr-title">📎 Payroll Summary — March 2025</div>
+        <div class="dr-note">Your bookkeeper needs your payroll summary before they can finalise your BAS. A screenshot or photo from your accounting app is fine.</div>
+        <div id="uploadArea1">
+          <div class="upload-zone" id="zone1" ondragover="handleDragOver(event,'zone1')" ondragleave="handleDragLeave('zone1')" ondrop="handleDrop(event,'zone1','fileList1')">
+            <input type="file" accept="image/*,application/pdf,.xlsx,.csv" multiple onchange="handleFiles(this.files,'fileList1')" id="fileInput1">
+            <div class="upload-icon">📂</div>
+            <div class="upload-title">Drop files here or tap to browse</div>
+            <div class="upload-sub">PDF, Word, Excel — anything works</div>
+            <div class="upload-types">jpg · png · heic · pdf · xlsx · csv</div>
+          </div>
+          <!-- Camera button (shows on mobile) -->
+          <button class="camera-btn" onclick="document.getElementById('cameraInput1').click()">
+            <span class="camera-btn-icon">📷</span>
+            Take a Photo
+          </button>
+          <input type="file" id="cameraInput1" accept="image/*" capture="environment" style="display:none;" onchange="handleFiles(this.files,'fileList1')">
+          <div id="fileList1"></div>
+        </div>
+      </div>
+
+      <!-- Request 2 — already uploaded -->
+      <div class="doc-request-card">
+        <div class="dr-title">✅ Bank Statements — Q3</div>
+        <div class="dr-note" style="color: #16a34a; font-weight: 600;">Received — thank you! Your bookkeeper has this.</div>
+      </div>
+
+    </div>
+
+    <!-- BAS Approval -->
+    <div class="section">
+      <div class="section-title">Needs Your Approval</div>
+      <div class="approve-card" id="approveCard">
+        <div class="approve-title">Please review and approve your BAS</div>
+        <div class="approve-desc">Your bookkeeper has prepared your BAS for this quarter. Please check the figures below and click Approve to authorise them to lodge with the ATO on your behalf.</div>
+        <div class="approve-figures">
+          <div class="fig"><div class="fig-label">Total Sales</div><div class="fig-value">$148,500</div></div>
+          <div class="fig"><div class="fig-label">GST Collected</div><div class="fig-value">$13,500</div></div>
+          <div class="fig"><div class="fig-label">GST Claimable</div><div class="fig-value">$4,200</div></div>
+          <div class="fig"><div class="fig-label">PAYG Withheld</div><div class="fig-value">$12,400</div></div>
+          <div class="fig"><div class="fig-label">Net Payable</div><div class="fig-value">$9,510</div></div>
+          <div class="fig"><div class="fig-label">Due Date</div><div class="fig-value" style="font-size:.85rem;">28 Mar</div></div>
+        </div>
+        <div class="disclaimer">These figures were sourced from Xero. Always review carefully. By approving you authorise your bookkeeper to lodge this BAS. Not tax advice.</div>
+        <button class="approve-btn" id="approveBtn" onclick="approveBAS()">✓ I Approve — Please Lodge</button>
+      </div>
+    </div>
+
+    <!-- Message thread -->
+    <div class="section">
+      <div class="section-title">Messages</div>
+      <div class="message-thread" id="messageThread">
+        <div class="msg from-bk">
+          <div class="msg-who">Your Bookkeeper</div>
+          Hi John! Just a heads up — your BAS is due today. I've prepared everything, just need your approval above and then I can lodge straight away.
+          <div class="msg-time">Today, 8:30am</div>
+        </div>
+        <div class="msg from-bk">
+          <div class="msg-who">Your Bookkeeper</div>
+          Also still waiting on the payroll summary when you get a chance — a screenshot from your phone is totally fine!
+          <div class="msg-time">Today, 8:31am</div>
+        </div>
+        <div class="msg from-me">
+          <div class="msg-who">You</div>
+          Got it, will get that payroll summary to you this morning. Thanks!
+          <div class="msg-time">Today, 9:15am</div>
+        </div>
+      </div>
+      <div class="reply-bar">
+        <textarea class="reply-input" id="replyInput" placeholder="Type a message…" rows="1" onInput="autoResize(this)" onkeydown="handleReplyKey(event)"></textarea>
+        <button class="reply-send" onclick="sendReply()">Send</button>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+<script>
+// ── FILE UPLOADS ─────────────────────────────────────────────
+function handleFiles(files, listId) {
+  const list = document.getElementById(listId);
+  Array.from(files).forEach(file => {
+    const isImage = file.type.startsWith('image/');
+    const row = document.createElement('div');
+    row.className = 'file-preview-row';
+
+    let thumbHtml = '';
+    if (isImage) {
+      const url = URL.createObjectURL(file);
+      thumbHtml = `<img class="file-thumb" src="${url}" alt="preview">`;
+    } else {
+      thumbHtml = `<div class="file-thumb">${getFileIcon(file.name)}</div>`;
+    }
+
+    const sizeKB = (file.size / 1024).toFixed(0);
+    const isPhoto = isImage;
+
+    row.innerHTML = `
+      ${thumbHtml}
+      <div class="file-info">
+        <div class="file-name">${file.name}</div>
+        <div class="file-size">${sizeKB} KB ${isPhoto ? '· 📷 Photo upload' : ''}</div>
+      </div>
+      <div class="file-status uploading" id="status-${Date.now()}">Uploading…</div>
+    `;
+    list.appendChild(row);
+
+    // Simulate upload progress
+    const statusEl = row.querySelector('.file-status');
+    setTimeout(() => {
+      statusEl.textContent = '✓ Uploaded';
+      statusEl.className = 'file-status done';
+      showToast(isPhoto ? '📷 Photo received — your bookkeeper will review it' : '✓ File uploaded successfully');
+
+      // PRODUCTION:
+      // const formData = new FormData();
+      // formData.append('file', file);
+      // formData.append('clientId', getClientId());
+      // fetch('/api/portal/upload', { method:'POST', body: formData });
+    }, 1200 + Math.random() * 800);
+  });
+}
+
+function getFileIcon(name) {
+  if (name.endsWith('.pdf')) return '📄';
+  if (name.endsWith('.xlsx') || name.endsWith('.csv')) return '📊';
+  return '📎';
+}
+
+function handleDragOver(e, zoneId) {
+  e.preventDefault();
+  document.getElementById(zoneId).classList.add('dragging');
+}
+function handleDragLeave(zoneId) {
+  document.getElementById(zoneId).classList.remove('dragging');
+}
+function handleDrop(e, zoneId, listId) {
+  e.preventDefault();
+  document.getElementById(zoneId).classList.remove('dragging');
+  handleFiles(e.dataTransfer.files, listId);
+}
+
+// ── BAS APPROVAL ─────────────────────────────────────────────
+window.approveBAS = function() {
+  const btn = document.getElementById('approveBtn');
+  btn.textContent = 'Sending approval…';
+  btn.disabled = true;
+
+  setTimeout(() => {
+    document.getElementById('approveCard').innerHTML = `
+      <div class="approved-banner">
+        <div class="approved-icon">✅</div>
+        <div class="approved-title">BAS Approved!</div>
+        <div class="approved-sub" style="color:var(--ink-mid);font-size:13px;margin-top:4px;">Your bookkeeper has been notified and will lodge with the ATO shortly.</div>
+        <div style="font-size:11px;color:#9ca3af;margin-top:8px;">Approved ${new Date().toLocaleTimeString('en-AU', {hour:'2-digit',minute:'2-digit'})}</div>
+      </div>
+    `;
+
+    // Add message to thread
+    addSystemMessage('✅ BAS approved by client — lodging with ATO now');
+
+    showToast('BAS approved — thank you! Your bookkeeper will lodge shortly.');
+
+    // PRODUCTION: POST approval to backend
+    // fetch('/api/portal/approve-bas', { method:'POST', body: JSON.stringify({ clientId, quarter:'Q3-FY2025' }) });
+  }, 1000);
+};
+
+// ── MESSAGE THREAD ────────────────────────────────────────────
+function sendReply() {
+  const input = document.getElementById('replyInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  const thread = document.getElementById('messageThread');
+  const msg = document.createElement('div');
+  msg.className = 'msg from-me';
+  msg.innerHTML = `
+    <div class="msg-who">You</div>
+    ${text}
+    <div class="msg-time">Just now</div>
+  `;
+  thread.appendChild(msg);
+  msg.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  input.value = '';
+  input.style.height = 'auto';
+
+  // PRODUCTION: POST to /api/portal/message
+}
+
+function addSystemMessage(text) {
+  const thread = document.getElementById('messageThread');
+  const msg = document.createElement('div');
+  msg.className = 'msg from-bk';
+  msg.innerHTML = `
+    <div class="msg-who">System</div>
+    ${text}
+    <div class="msg-time">Just now</div>
+  `;
+  thread.appendChild(msg);
+}
+
+function handleReplyKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendReply(); }
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+// ── TOAST ─────────────────────────────────────────────────────
+function showToast(msg) {
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 3500);
+}
+</script>
+</body>
+</html>

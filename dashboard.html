@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — ComplianceEase</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .quick-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: var(--s-3); }
+    .quick-btn {
+      background: var(--ink-25); border: 1px solid var(--border); border-radius: var(--r-lg);
+      padding: var(--s-4); text-align: center; font-size: 12px; font-weight: 600;
+      color: var(--ink-600); cursor: pointer; transition: all 0.15s;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      text-decoration: none;
+    }
+    .quick-btn:hover { background: var(--teal-50); border-color: var(--teal-300); color: var(--teal-600); transform: translateY(-1px); }
+    .quick-btn .qi { font-size: 18px; }
+    .month-progress-item { margin-bottom: var(--s-5); }
+    .mp-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: var(--s-2); }
+    .mp-label { font-size: 13px; color: var(--ink-600); }
+    .mp-stat { font-family: var(--font-display); font-size: 13px; font-weight: 800; color: var(--ink-800); }
+    .deadline-entry { display: flex; align-items: center; gap: var(--s-3); padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .deadline-entry:last-child { border-bottom: none; }
+    .dl-client { flex: 1; }
+    .dl-client-name { font-weight: 600; font-size: 14px; color: var(--ink-900); }
+    .dl-client-abn  { font-size: 11px; color: var(--ink-400); margin-top: 1px; }
+    .dl-days { font-family: var(--font-display); font-size: 13px; font-weight: 800; white-space: nowrap; }
+    .dl-days.red   { color: var(--red-500); }
+    .dl-days.amber { color: var(--amber-600); }
+    .dl-days.green { color: var(--green-500); }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-mark">C</div>
+      <span class="sidebar-brand-name">ComplianceEase</span>
+    </div>
+        <nav class="sidebar-nav">
+      <div class="sidebar-section">Main</div>
+      <a href="dashboard.html" class="sidebar-link active "><span class="link-icon">📊</span>Dashboard<span class="link-badge">3</span></a>
+      <a href="clients.html" class="sidebar-link  "><span class="link-icon">👥</span>All Clients</a>
+      <a href="alerts.html" class="sidebar-link  "><span class="link-icon">🔔</span>Alerts &amp; Deadlines<span class="link-badge">8</span></a>
+      <div class="sidebar-section">AI Tools</div>
+      <a href="ai-emails.html" class="sidebar-link  "><span class="link-icon">✉️</span>AI Emails</a>
+      <a href="portal-manager.html" class="sidebar-link  "><span class="link-icon">🔗</span>Client Portal</a>
+      <div class="sidebar-section">Manage</div>
+      <a href="reports.html" class="sidebar-link  "><span class="link-icon">📄</span>Reports</a>
+      <a href="documents.html" class="sidebar-link  "><span class="link-icon">🗂</span>Documents</a>
+      <a href="settings.html" class="sidebar-link  "><span class="link-icon">⚙️</span>Settings</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">KT</div>
+        <div>
+          <div class="sidebar-user-name">Your Practice</div>
+          <div class="sidebar-user-sub">32 clients · Pro Plan</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="app-main">
+    <div class="main-inner">
+      <div class="page-head-row">
+        <div class="page-head">
+          <div class="page-title">Good morning, Karen ☀️</div>
+          <div class="page-subtitle">Friday 28 March 2025 · 32 clients · <span style="color:var(--red-500);font-weight:600;">8 deadlines this week</span></div>
+        </div>
+        <a href="clients.html#add" class="btn btn-primary btn-sm">+ Add Client</a>
+      </div>
+
+      <div class="alert-bar">
+        <div class="alert-num">3</div>
+        <div style="flex:1;"><strong>3 urgent deadlines today</strong> — Smith Plumbing (BAS), Jones Electrical (Super), Brown Construction (PAYG)</div>
+        <a href="alerts.html" class="btn btn-danger-ghost btn-sm" style="white-space:nowrap;">View All →</a>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat-card brand anim">
+          <div class="stat-label">Total Clients</div>
+          <div class="stat-value brand">32</div>
+          <div class="stat-meta">+2 this month</div>
+        </div>
+        <div class="stat-card danger anim anim-d1">
+          <div class="stat-label">Urgent (Next 3 Days)</div>
+          <div class="stat-value danger">8</div>
+          <div class="stat-meta">3 due today</div>
+        </div>
+        <div class="stat-card warning anim anim-d2">
+          <div class="stat-label">Upcoming (14 Days)</div>
+          <div class="stat-value warning">15</div>
+          <div class="stat-meta">BAS, Super, PAYG</div>
+        </div>
+        <div class="stat-card ai anim anim-d3">
+          <div class="stat-label">AI Risk Flags</div>
+          <div class="stat-value" style="color:var(--teal-400);">4</div>
+          <div class="stat-meta">High-risk clients</div>
+        </div>
+      </div>
+
+      <!-- Main content grid -->
+      <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:var(--s-5);align-items:start;">
+
+        <!-- Left column -->
+        <div style="display:flex;flex-direction:column;gap:var(--s-5);">
+
+          <!-- Clients needing attention -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-header-title">Clients Needing Attention</span>
+              <a href="clients.html" class="btn btn-ghost btn-sm">View All</a>
+            </div>
+            <div style="padding:0 var(--s-5);">
+              <div style="font-size:11px;font-weight:700;color:var(--red-500);text-transform:uppercase;letter-spacing:.06em;padding:var(--s-4) 0 var(--s-2);">🔴 Urgent Today</div>
+
+              <div class="deadline-entry">
+                <span class="dot dot-red"></span>
+                <div class="dl-client">
+                  <div class="dl-client-name">Smith Plumbing Pty Ltd</div>
+                  <div class="dl-client-abn">ABN: 12 345 678 901 · 7 employees</div>
+                </div>
+                <span class="badge badge-urgent">BAS</span>
+                <span class="risk-score high">88 HIGH</span>
+                <span class="dl-days red">Today</span>
+                <a href="client-detail.html" class="btn btn-primary btn-sm">View</a>
+              </div>
+              <div class="deadline-entry">
+                <span class="dot dot-red"></span>
+                <div class="dl-client">
+                  <div class="dl-client-name">Jones Electrical Services</div>
+                  <div class="dl-client-abn">ABN: 98 765 432 109 · 12 employees</div>
+                </div>
+                <span class="badge badge-urgent">Super</span>
+                <span class="risk-score high">84 HIGH</span>
+                <span class="dl-days red">Today</span>
+                <a href="#" class="btn btn-primary btn-sm">View</a>
+              </div>
+              <div class="deadline-entry">
+                <span class="dot dot-red"></span>
+                <div class="dl-client">
+                  <div class="dl-client-name">Brown Construction Group</div>
+                  <div class="dl-client-abn">ABN: 45 678 901 234 · 23 employees</div>
+                </div>
+                <span class="badge badge-urgent">PAYG</span>
+                <span class="risk-score high">76 HIGH</span>
+                <span class="dl-days red">Today</span>
+                <a href="#" class="btn btn-primary btn-sm">View</a>
+              </div>
+
+              <div style="font-size:11px;font-weight:700;color:var(--amber-600);text-transform:uppercase;letter-spacing:.06em;padding:var(--s-5) 0 var(--s-2);">🟡 This Week</div>
+
+              <div class="deadline-entry">
+                <span class="dot dot-amber"></span>
+                <div class="dl-client">
+                  <div class="dl-client-name">Anderson Cafe</div>
+                  <div class="dl-client-abn">ABN: 78 901 234 567</div>
+                </div>
+                <span class="badge badge-warning">BAS</span>
+                <span class="risk-score medium">42 MED</span>
+                <span class="dl-days amber">5 days</span>
+                <a href="#" class="btn btn-ghost btn-sm">View</a>
+              </div>
+              <div class="deadline-entry">
+                <span class="dot dot-amber"></span>
+                <div class="dl-client">
+                  <div class="dl-client-name">Wilson Landscaping</div>
+                  <div class="dl-client-abn">ABN: 11 222 333 444</div>
+                </div>
+                <span class="badge badge-warning">Super</span>
+                <span class="risk-score medium">35 MED</span>
+                <span class="dl-days amber">5 days</span>
+                <a href="#" class="btn btn-ghost btn-sm">View</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Risk Panel -->
+          <div class="ai-risk-card">
+            <div class="ai-risk-title">AI Risk Radar — This Month</div>
+            <div class="ai-risk-row">
+              <div class="ai-risk-client">
+                <div class="ai-risk-client-name">Smith Plumbing Pty Ltd</div>
+                <div class="ai-risk-reason">Deadline within 3 days · Multiple open obligations</div>
+              </div>
+              <div class="risk-bar-wrap"><div class="risk-bar-fill high" style="width:88%"></div></div>
+              <span class="risk-score high" style="min-width:76px;">88 HIGH</span>
+            </div>
+            <div class="ai-risk-row">
+              <div class="ai-risk-client">
+                <div class="ai-risk-client-name">Jones Electrical Services</div>
+                <div class="ai-risk-reason">Deadline within 3 days · Large payroll</div>
+              </div>
+              <div class="risk-bar-wrap"><div class="risk-bar-fill high" style="width:84%"></div></div>
+              <span class="risk-score high" style="min-width:76px;">84 HIGH</span>
+            </div>
+            <div class="ai-risk-row">
+              <div class="ai-risk-client">
+                <div class="ai-risk-client-name">Brown Construction Group</div>
+                <div class="ai-risk-reason">Deadline within 3 days · 3+ obligations · 23 staff</div>
+              </div>
+              <div class="risk-bar-wrap"><div class="risk-bar-fill high" style="width:76%"></div></div>
+              <span class="risk-score high" style="min-width:76px;">76 HIGH</span>
+            </div>
+            <div class="ai-risk-row">
+              <div class="ai-risk-client">
+                <div class="ai-risk-client-name">Anderson Cafe</div>
+                <div class="ai-risk-reason">Not responding to reminders · Deadline this week</div>
+              </div>
+              <div class="risk-bar-wrap"><div class="risk-bar-fill medium" style="width:42%"></div></div>
+              <span class="risk-score medium" style="min-width:76px;">42 MED</span>
+            </div>
+            <div class="ai-risk-row">
+              <div class="ai-risk-client">
+                <div class="ai-risk-client-name">Wilson Landscaping</div>
+                <div class="ai-risk-reason">Deadline this week</div>
+              </div>
+              <div class="risk-bar-wrap"><div class="risk-bar-fill medium" style="width:35%"></div></div>
+              <span class="risk-score medium" style="min-width:76px;">35 MED</span>
+            </div>
+            <div style="padding-top:var(--s-3);margin-top:var(--s-2);border-top:1px solid rgba(255,255,255,.06);">
+              <p style="font-size:11px;color:rgba(255,255,255,.25);text-align:center;">
+                Risk scores based on deadline proximity, obligation count, payroll size &amp; reminder response
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right column -->
+        <div style="display:flex;flex-direction:column;gap:var(--s-5);">
+
+          <!-- Quick Actions -->
+          <div class="card">
+            <div class="card-header"><span class="card-header-title">Quick Actions</span></div>
+            <div class="card-body">
+              <div class="quick-grid">
+                <a href="clients.html#add" class="quick-btn"><span class="qi">➕</span>Add Client</a>
+                <a href="reports.html"     class="quick-btn"><span class="qi">📋</span>Reports</a>
+                <a href="#" class="quick-btn" data-xero-connect="demo"><span class="qi">🔵</span>Xero</a>
+                <a href="documents.html"   class="quick-btn"><span class="qi">📁</span>Docs</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Integrations Status -->
+          <div class="card">
+            <div class="card-header"><span class="card-header-title">Integrations</span><a href="settings.html" class="btn btn-ghost btn-sm">Manage</a></div>
+            <div class="card-body" style="padding-top:var(--s-3);padding-bottom:var(--s-3);">
+              <div class="integration-row">
+                <div class="integration-info">
+                  <div class="integration-logo">🔵</div>
+                  <div>
+                    <div class="integration-name">Xero</div>
+                    <div class="integration-status on">● Connected · 28 clients</div>
+                  </div>
+                </div>
+                <span class="badge badge-ok">Active</span>
+              </div>
+              <div class="integration-row">
+                <div class="integration-info">
+                  <div class="integration-logo">🟡</div>
+                  <div>
+                    <div class="integration-name">MYOB</div>
+                    <div class="integration-status on">● Connected · 4 clients</div>
+                  </div>
+                </div>
+                <span class="badge badge-ok">Active</span>
+              </div>
+              <div class="integration-row">
+                <div class="integration-info">
+                  <div class="integration-logo">🟢</div>
+                  <div>
+                    <div class="integration-name">QuickBooks</div>
+                    <div class="integration-status">Coming in future update</div>
+                  </div>
+                </div>
+                <span class="coming-soon-badge">Soon</span>
+              </div>
+              <div class="integration-row">
+                <div class="integration-info">
+                  <div class="integration-logo">🟠</div>
+                  <div>
+                    <div class="integration-name">Xoro</div>
+                    <div class="integration-status">Coming in v2.1</div>
+                  </div>
+                </div>
+                <span class="coming-soon-badge">v2.1</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- March Progress -->
+          <div class="card">
+            <div class="card-header"><span class="card-header-title">March Progress</span></div>
+            <div class="card-body">
+              <div class="month-progress-item">
+                <div class="mp-row"><span class="mp-label">BAS Lodged</span><span class="mp-stat">18 / 24</span></div>
+                <div class="progress-wrap"><div class="progress-fill green" style="width:75%"></div></div>
+              </div>
+              <div class="month-progress-item">
+                <div class="mp-row"><span class="mp-label">Super Payments</span><span class="mp-stat">22 / 28</span></div>
+                <div class="progress-wrap"><div class="progress-fill teal" style="width:79%"></div></div>
+              </div>
+              <div class="month-progress-item" style="margin-bottom:0">
+                <div class="mp-row"><span class="mp-label">PAYG Withholding</span><span class="mp-stat">7 / 12</span></div>
+                <div class="progress-wrap"><div class="progress-fill amber" style="width:58%"></div></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="js/app.js"></script>
+</body>
+</html>

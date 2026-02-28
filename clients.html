@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Clients — ComplianceEase</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="sidebar-brand-mark">C</div><span class="sidebar-brand-name">ComplianceEase</span></div>
+        <nav class="sidebar-nav">
+      <div class="sidebar-section">Main</div>
+      <a href="dashboard.html" class="sidebar-link  "><span class="link-icon">📊</span>Dashboard</a>
+      <a href="clients.html" class="sidebar-link active "><span class="link-icon">👥</span>All Clients</a>
+      <a href="alerts.html" class="sidebar-link  "><span class="link-icon">🔔</span>Alerts &amp; Deadlines<span class="link-badge">8</span></a>
+      <div class="sidebar-section">AI Tools</div>
+      <a href="ai-emails.html" class="sidebar-link  "><span class="link-icon">✉️</span>AI Emails</a>
+      <a href="portal-manager.html" class="sidebar-link  "><span class="link-icon">🔗</span>Client Portal</a>
+      <div class="sidebar-section">Manage</div>
+      <a href="reports.html" class="sidebar-link  "><span class="link-icon">📄</span>Reports</a>
+      <a href="documents.html" class="sidebar-link  "><span class="link-icon">🗂</span>Documents</a>
+      <a href="settings.html" class="sidebar-link  "><span class="link-icon">⚙️</span>Settings</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">KT</div>
+        <div><div class="sidebar-user-name">Karen Thompson</div><div class="sidebar-user-sub">32 clients · Pro Plan</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="app-main">
+    <div class="main-inner">
+      <div class="page-head-row">
+        <div class="page-head">
+          <div class="page-title">All Clients</div>
+          <div class="page-subtitle">32 active clients · Manage compliance across your portfolio</div>
+        </div>
+        <a href="#add" class="btn btn-primary btn-sm">+ Add New Client</a>
+      </div>
+
+      <div class="card" style="margin-bottom:var(--s-5);">
+        <div class="card-body" style="padding-bottom:var(--s-4);">
+          <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:var(--s-3);align-items:center;">
+            <input id="clientSearch" class="form-input" type="text" placeholder="Search by client name or ABN…">
+            <select id="clientFilter" class="form-select" style="width:auto;min-width:180px;">
+              <option value="all">All Clients</option>
+              <option value="urgent">Urgent Deadlines</option>
+              <option value="upcoming">Upcoming Deadlines</option>
+              <option value="ok">No Issues</option>
+            </select>
+            <select class="form-select" style="width:auto;">
+              <option value="all">All Software</option>
+              <option value="xero">Xero</option>
+              <option value="myob">MYOB</option>
+              <option value="qb">QuickBooks</option>
+              <option value="manual">Manual</option>
+            </select>
+            <button class="btn btn-ghost btn-sm">Export CSV</button>
+          </div>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Client Name</th><th>ABN</th><th>Staff</th><th>Software</th>
+              <th>AI Risk</th><th>Urgent</th><th>Upcoming</th><th>Next Deadline</th><th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="client-row" data-name="smith plumbing" data-abn="12345678901" data-status="urgent">
+              <td><strong>Smith Plumbing Pty Ltd</strong></td>
+              <td style="color:var(--ink-500);font-size:13px;">12 345 678 901</td>
+              <td>7</td>
+              <td><span class="int-pill xero">Xero</span></td>
+              <td><span class="risk-score high">88 HIGH</span></td>
+              <td><span class="badge badge-urgent">2</span></td>
+              <td><span class="badge badge-warning">3</span></td>
+              <td style="color:var(--red-500);font-weight:700;font-size:13px;">BAS — Today</td>
+              <td><a href="client-detail.html" class="btn btn-primary btn-sm">View</a></td>
+            </tr>
+            <tr class="client-row" data-name="jones electrical" data-abn="98765432109" data-status="urgent">
+              <td><strong>Jones Electrical Services</strong></td>
+              <td style="color:var(--ink-500);font-size:13px;">98 765 432 109</td>
+              <td>12</td>
+              <td><span class="int-pill xero">Xero</span></td>
+              <td><span class="risk-score high">84 HIGH</span></td>
+              <td><span class="badge badge-urgent">1</span></td>
+              <td><span class="badge badge-warning">2</span></td>
+              <td style="color:var(--red-500);font-weight:700;font-size:13px;">Super — Today</td>
+              <td><a href="#" class="btn btn-primary btn-sm">View</a></td>
+            </tr>
+            <tr class="client-row" data-name="brown construction" data-abn="45678901234" data-status="urgent">
+              <td><strong>Brown Construction Group</strong></td>
+              <td style="color:var(--ink-500);font-size:13px;">45 678 901 234</td>
+              <td>23</td>
+              <td><span class="int-pill myob">MYOB</span></td>
+              <td><span class="risk-score high">76 HIGH</span></td>
+              <td><span class="badge badge-urgent">1</span></td>
+              <td><span class="badge badge-warning">4</span></td>
+              <td style="color:var(--red-500);font-weight:700;font-size:13px;">PAYG — Today</td>
+              <td><a href="#" class="btn btn-primary btn-sm">View</a></td>
+            </tr>
+            <tr class="client-row" data-name="anderson cafe" data-abn="78901234567" data-status="upcoming">
+              <td><strong>Anderson Cafe</strong></td>
+              <td style="color:var(--ink-500);font-size:13px;">78 901 234 567</td>
+              <td>4</td>
+              <td><span class="int-pill xero">Xero</span></td>
+              <td><span class="risk-score medium">42 MED</span></td>
+              <td><span class="badge badge-ok">0</span></td>
+              <td><span class="badge badge-warning">2</span></td>
+              <td style="color:var(--amber-600);font-weight:700;font-size:13px;">BAS — 5 days</td>
+              <td><a href="#" class="btn btn-ghost btn-sm">View</a></td>
+            </tr>
+            <tr class="client-row" data-name="wilson landscaping" data-abn="11222333444" data-status="upcoming">
+              <td><strong>Wilson Landscaping</strong></td>
+              <td style="color:var(--ink-500);font-size:13px;">11 222 333 444</td>
+              <td>6</td>
+              <td><span class="int-pill xero">Xero</span></td>
+              <td><span class="risk-score medium">35 MED</span></td>
+              <td><span class="badge badge-ok">0</span></td>
+              <td><span class="badge badge-warning">1</span></td>
+              <td style="color:var(--amber-600);font-weight:700;font-size:13px;">Super — 5 days</td>
+              <td><a href="#" class="btn btn-ghost btn-sm">View</a></td>
+            </tr>
+            <tr class="client-row" data-name="sunrise bakery" data-abn="99888777666" data-status="ok">
+              <td><strong>Sunrise Bakery</strong></td>
+              <td style="color:var(--ink-500);font-size:13px;">99 888 777 666</td>
+              <td>3</td>
+              <td><span class="int-pill xero">Xero</span></td>
+              <td><span class="risk-score low">12 LOW</span></td>
+              <td><span class="badge badge-ok">0</span></td>
+              <td><span class="badge badge-ok">0</span></td>
+              <td style="color:var(--green-500);font-weight:700;font-size:13px;">BAS — 28 days</td>
+              <td><a href="#" class="btn btn-ghost btn-sm">View</a></td>
+            </tr>
+            <tr class="client-row" data-name="peak fitness" data-abn="44333222111" data-status="ok">
+              <td><strong>Peak Fitness Studio</strong></td>
+              <td style="color:var(--ink-500);font-size:13px;">44 333 222 111</td>
+              <td>5</td>
+              <td><span class="int-pill manual">Manual</span></td>
+              <td><span class="risk-score low">8 LOW</span></td>
+              <td><span class="badge badge-ok">0</span></td>
+              <td><span class="badge badge-ok">0</span></td>
+              <td style="color:var(--green-500);font-weight:700;font-size:13px;">Super — 35 days</td>
+              <td><a href="#" class="btn btn-ghost btn-sm">View</a></td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="padding:var(--s-4) var(--s-5);border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:13px;color:var(--ink-400);">Showing 7 of 32 clients</span>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-ghost btn-sm">← Prev</button>
+            <button class="btn btn-ghost btn-sm">Next →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add client form -->
+      <div class="card" id="add">
+        <div class="card-header"><span class="card-header-title">Add New Client</span></div>
+        <div class="card-body">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s-5);">
+            <div class="form-group"><label class="form-label">Business Name</label><input class="form-input" type="text" placeholder="e.g. Smith Plumbing Pty Ltd"></div>
+            <div class="form-group"><label class="form-label">ABN</label><input class="form-input" type="text" placeholder="XX XXX XXX XXX"></div>
+            <div class="form-group"><label class="form-label">Number of Employees</label><input class="form-input" type="number" placeholder="e.g. 7"></div>
+            <div class="form-group">
+              <label class="form-label">Accounting Software</label>
+              <select class="form-select">
+                <option>Xero</option>
+                <option>MYOB</option>
+                <option>QuickBooks</option>
+                <option>Xoro</option>
+                <option>None / Manual</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">Entity Type</label>
+              <select class="form-select">
+                <option>Pty Ltd</option><option>Sole Trader</option><option>Partnership</option>
+                <option>Trust</option><option>Other</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">GST Registered?</label>
+              <select class="form-select"><option>Yes</option><option>No</option></select>
+            </div>
+            <div class="form-group"><label class="form-label">BAS Frequency</label>
+              <select class="form-select"><option>Quarterly</option><option>Monthly</option><option>Annual</option></select>
+            </div>
+            <div class="form-group"><label class="form-label">Client Email (for reminders)</label>
+              <input class="form-input" type="email" placeholder="client@business.com.au">
+            </div>
+            <div class="form-group"><label class="form-label">Client Phone (for SMS reminders)</label>
+              <input class="form-input" type="tel" placeholder="04XX XXX XXX">
+            </div>
+            <div class="form-group"><label class="form-label">Contact Person</label>
+              <input class="form-input" type="text" placeholder="e.g. John Smith">
+            </div>
+          </div>
+          <div style="display:flex;gap:var(--s-3);margin-top:8px;">
+            <button class="btn btn-primary" onclick="Clients.add({name:'New Client'})">Add Client</button>
+            <button class="btn btn-ghost">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="js/app.js"></script>
+</body>
+</html>

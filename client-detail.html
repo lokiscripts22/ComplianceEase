@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smith Plumbing — ComplianceEase</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .detail-grid { display: grid; grid-template-columns: 1fr 340px; gap: var(--s-5); align-items: start; }
+    .obligation-row { display: flex; align-items: center; gap: var(--s-4); padding: 13px 0; border-bottom: 1px solid var(--border); }
+    .obligation-row:last-child { border-bottom: none; }
+    .ob-info { flex: 1; }
+    .ob-name { font-weight: 600; font-size: 14px; color: var(--ink-900); }
+    .ob-sub  { font-size: 12px; color: var(--ink-400); margin-top: 2px; }
+    .ob-due  { font-family: var(--font-display); font-size: 13px; font-weight: 800; white-space: nowrap; }
+    .ob-due.red   { color: var(--red-500); }
+    .ob-due.amber { color: var(--amber-600); }
+    .ob-due.green { color: var(--green-500); }
+    .info-row { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 13.5px; }
+    .info-row:last-child { border-bottom: none; }
+    .info-key { color: var(--ink-400); }
+    .info-val { font-weight: 600; text-align: right; }
+    .sync-tabs { display: flex; gap: 6px; margin-bottom: var(--s-4); }
+    .sync-tab { padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; border: 1.5px solid var(--border); cursor: pointer; background: var(--ink-25); color: var(--ink-500); transition: all .15s; }
+    .sync-tab.active { background: var(--teal-400); color: white; border-color: var(--teal-400); }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="sidebar-brand-mark">C</div><span class="sidebar-brand-name">ComplianceEase</span></div>
+        <nav class="sidebar-nav">
+      <div class="sidebar-section">Main</div>
+      <a href="dashboard.html" class="sidebar-link  "><span class="link-icon">📊</span>Dashboard</a>
+      <a href="clients.html" class="sidebar-link active "><span class="link-icon">👥</span>All Clients</a>
+      <a href="alerts.html" class="sidebar-link  "><span class="link-icon">🔔</span>Alerts &amp; Deadlines<span class="link-badge">8</span></a>
+      <div class="sidebar-section">AI Tools</div>
+      <a href="ai-emails.html" class="sidebar-link  "><span class="link-icon">✉️</span>AI Emails</a>
+      <a href="portal-manager.html" class="sidebar-link  "><span class="link-icon">🔗</span>Client Portal</a>
+      <div class="sidebar-section">Manage</div>
+      <a href="reports.html" class="sidebar-link  "><span class="link-icon">📄</span>Reports</a>
+      <a href="documents.html" class="sidebar-link  "><span class="link-icon">🗂</span>Documents</a>
+      <a href="settings.html" class="sidebar-link  "><span class="link-icon">⚙️</span>Settings</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">KT</div>
+        <div><div class="sidebar-user-name">Karen Thompson</div><div class="sidebar-user-sub">32 clients · Pro Plan</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="app-main">
+    <div class="main-inner">
+
+      <div class="page-head">
+        <div style="font-size:13px;color:var(--ink-400);margin-bottom:var(--s-2);">
+          <a href="clients.html" style="color:var(--teal-500);">← All Clients</a> / Smith Plumbing Pty Ltd
+        </div>
+        <div class="page-head-row">
+          <div>
+            <div class="page-title">Smith Plumbing Pty Ltd</div>
+            <div class="page-subtitle" style="display:flex;align-items:center;gap:var(--s-3);flex-wrap:wrap;">
+              ABN: 12 345 678 901 · 7 employees · 
+              <span class="int-pill xero">Xero</span>
+              <span class="risk-score high">88 HIGH RISK</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:var(--s-3);">
+            <button class="btn btn-ghost btn-sm">Edit</button>
+            <button class="btn btn-danger-ghost btn-sm">Remove Client</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert-bar">
+        <div class="alert-num">!</div>
+        <div><strong>2 urgent items</strong> — Quarterly BAS due today · PAYG Withholding due in 2 days</div>
+        <button class="btn btn-danger-ghost btn-sm" onclick="Notifications.sendReminder('smith-plumbing', 'email', 0)">Email Client Now</button>
+        <button class="btn btn-danger-ghost btn-sm" onclick="Notifications.sendReminder('smith-plumbing', 'sms', 0)">SMS Client</button>
+      </div>
+
+      <div class="detail-grid">
+        <!-- Left: obligations + sync -->
+        <div style="display:flex;flex-direction:column;gap:var(--s-5);">
+
+          <!-- Obligations -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-header-title">Compliance Obligations</span>
+              <button class="btn btn-primary btn-sm">+ Add Obligation</button>
+            </div>
+            <div style="padding:0 var(--s-5);">
+              <div class="obligation-row">
+                <span class="dot dot-red"></span>
+                <div class="ob-info">
+                  <div class="ob-name">Quarterly BAS — Q3 FY2024–25</div>
+                  <div class="ob-sub">Lodge via ATO Business Portal · Quarterly reporter</div>
+                </div>
+                <span class="badge badge-urgent">BAS</span>
+                <span class="ob-due red">Due Today</span>
+                <button class="btn btn-primary btn-sm" onclick="markComplete(this)">Lodge Now</button>
+              </div>
+              <div class="obligation-row">
+                <span class="dot dot-red"></span>
+                <div class="ob-info">
+                  <div class="ob-name">PAYG Withholding — March 2025</div>
+                  <div class="ob-sub">Monthly reporter · 7 employees</div>
+                </div>
+                <span class="badge badge-urgent">PAYG</span>
+                <span class="ob-due red">2 days</span>
+                <button class="btn btn-ghost btn-sm" onclick="markComplete(this)">Mark Done</button>
+              </div>
+              <div class="obligation-row">
+                <span class="dot dot-amber"></span>
+                <div class="ob-info">
+                  <div class="ob-name">Super Guarantee — Q3 FY2024–25</div>
+                  <div class="ob-sub">Due 28 April 2025 · Pay via SuperStream</div>
+                </div>
+                <span class="badge badge-warning">Super</span>
+                <span class="ob-due amber">31 days</span>
+                <button class="btn btn-ghost btn-sm">Prepare</button>
+              </div>
+              <div class="obligation-row">
+                <span class="dot dot-green"></span>
+                <div class="ob-info">
+                  <div class="ob-name">Annual Tax Return — FY2024–25</div>
+                  <div class="ob-sub">Due 31 October 2025</div>
+                </div>
+                <span class="badge badge-ok">Tax</span>
+                <span class="ob-due green">217 days</span>
+                <button class="btn btn-ghost btn-sm">View</button>
+              </div>
+              <div class="obligation-row">
+                <span class="dot dot-green"></span>
+                <div class="ob-info">
+                  <div class="ob-name">Workers Compensation Insurance</div>
+                  <div class="ob-sub">Annual renewal · Due 15 June 2025</div>
+                </div>
+                <span class="badge badge-ok">Licence</span>
+                <span class="ob-due green">79 days</span>
+                <button class="btn btn-ghost btn-sm">View</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Accounting Software Sync -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-header-title">Accounting Data Sync</span>
+              <div style="display:flex;align-items:center;gap:var(--s-3);">
+                <span style="font-size:11px;color:var(--ink-400);" id="xeroSyncTime">Last synced: 2 hrs ago</span>
+                <button class="btn btn-outline btn-sm" onclick="syncXero(this, 'smith-plumbing-123')">🔄 Sync Xero</button>
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- Sync source tabs -->
+              <div class="sync-tabs">
+                <button class="sync-tab active" onclick="this.parentElement.querySelectorAll('.sync-tab').forEach(b=>b.classList.remove('active'));this.classList.add('active')">🔵 Xero BAS</button>
+                <button class="sync-tab" onclick="this.parentElement.querySelectorAll('.sync-tab').forEach(b=>b.classList.remove('active'));this.classList.add('active')">📊 P&amp;L</button>
+                <button class="sync-tab" style="opacity:.5;cursor:not-allowed;" title="Connect MYOB to use">🟡 MYOB <span class="coming-soon-badge">Soon</span></button>
+              </div>
+              <div id="xeroSnapshot">
+                <div class="xero-snapshot">
+                  <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <div>
+                      <div style="font-size:12px;color:rgba(255,255,255,.5);font-weight:600;text-transform:uppercase;letter-spacing:.07em;">Xero Live Data</div>
+                      <div style="font-size:15px;font-weight:700;color:white;margin-top:2px;">BAS Report — Q3 FY2024–25</div>
+                    </div>
+                    <div style="font-size:11px;color:rgba(255,255,255,.4);">Last synced 2 hrs ago</div>
+                  </div>
+                  <div class="xero-snap-grid">
+                    <div class="xero-snap-item"><div class="xero-snap-label">G1 Total Sales</div><div class="xero-snap-val">$148,500</div></div>
+                    <div class="xero-snap-item"><div class="xero-snap-label">GST Collected</div><div class="xero-snap-val">$13,500</div></div>
+                    <div class="xero-snap-item"><div class="xero-snap-label">GST Claimable</div><div class="xero-snap-val">$4,200</div></div>
+                    <div class="xero-snap-item"><div class="xero-snap-label">PAYG Withheld</div><div class="xero-snap-val">$12,400</div></div>
+                    <div class="xero-snap-item"><div class="xero-snap-label">Total Purchases</div><div class="xero-snap-val">$46,000</div></div>
+                    <div class="xero-snap-item"><div class="xero-snap-label">Capital GST</div><div class="xero-snap-val">$210</div></div>
+                  </div>
+                  <div class="xero-payable">
+                    <div>
+                      <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700;text-transform:uppercase;letter-spacing:.07em;">Est. BAS Payable</div>
+                      <div style="font-family:'Cabinet Grotesk',sans-serif;font-size:1.8rem;font-weight:900;color:white;letter-spacing:-0.04em;">$9,510</div>
+                    </div>
+                    <a href="https://bp.ato.gov.au" target="_blank" class="btn btn-accent btn-sm">Lodge via ATO →</a>
+                  </div>
+                </div>
+                <p style="font-size:11px;color:var(--ink-400);margin-top:var(--s-3);text-align:center;">
+                  Data sourced from Xero via official API. Always review before lodging. <strong>Not tax advice.</strong>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Audit Log -->
+          <div class="card">
+            <div class="card-header"><span class="card-header-title">Audit Log</span></div>
+            <div style="padding:0 var(--s-5);">
+              <div class="audit-row">
+                <div class="audit-dot green"></div>
+                <div class="audit-info">
+                  <div class="audit-action">BAS Q2 FY2024–25 marked as lodged</div>
+                  <div class="audit-detail">Lodged by Karen Thompson via ATO Business Portal</div>
+                </div>
+                <div class="audit-time">28 Jan 2025 · 10:14am</div>
+              </div>
+              <div class="audit-row">
+                <div class="audit-dot blue"></div>
+                <div class="audit-info">
+                  <div class="audit-action">Xero BAS synced — Q2 FY2024–25</div>
+                  <div class="audit-detail">G1: $131,200 · GST: $11,927 · Net payable: $8,200</div>
+                </div>
+                <div class="audit-time">26 Jan 2025 · 9:02am</div>
+              </div>
+              <div class="audit-row">
+                <div class="audit-dot green"></div>
+                <div class="audit-info">
+                  <div class="audit-action">Super Q2 marked as paid</div>
+                  <div class="audit-detail">$18,240 paid via SuperStream · 7 employees</div>
+                </div>
+                <div class="audit-time">26 Jan 2025 · 8:45am</div>
+              </div>
+              <div class="audit-row">
+                <div class="audit-dot amber"></div>
+                <div class="audit-info">
+                  <div class="audit-action">Email reminder sent to John Smith</div>
+                  <div class="audit-detail">BAS Q2 deadline in 7 days · Automated reminder</div>
+                </div>
+                <div class="audit-time">21 Jan 2025 · 9:00am</div>
+              </div>
+              <div class="audit-row">
+                <div class="audit-dot blue"></div>
+                <div class="audit-info">
+                  <div class="audit-action">Client profile updated</div>
+                  <div class="audit-detail">Employee count changed: 6 → 7</div>
+                </div>
+                <div class="audit-time">15 Jan 2025 · 2:30pm</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: client details + docs + reminders -->
+        <div style="display:flex;flex-direction:column;gap:var(--s-5);">
+
+          <!-- AI Risk Score -->
+          <div class="ai-risk-card">
+            <div class="ai-risk-title">AI Risk Score</div>
+            <div style="text-align:center;padding:var(--s-3) 0;">
+              <div style="font-family:var(--font-display);font-size:3.5rem;font-weight:900;color:var(--red-400);letter-spacing:-0.04em;line-height:1;">88</div>
+              <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;margin-top:4px;">HIGH RISK</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;margin-top:var(--s-3);">
+              <div style="font-size:11px;color:rgba(255,255,255,.35);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Risk Factors</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.6);padding:5px 10px;background:rgba(239,68,68,.15);border-radius:6px;border:1px solid rgba(239,68,68,.2);">🔴 Deadline within 3 days</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.6);padding:5px 10px;background:rgba(239,68,68,.12);border-radius:6px;border:1px solid rgba(239,68,68,.15);">🔴 Multiple open obligations</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.6);padding:5px 10px;background:rgba(245,158,11,.1);border-radius:6px;border:1px solid rgba(245,158,11,.15);">🟡 Medium payroll (7 staff)</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><span class="card-header-title">Client Details</span></div>
+            <div class="card-body" style="padding-top:var(--s-3);padding-bottom:var(--s-3);">
+              <div class="info-row"><span class="info-key">Business Name</span><span class="info-val">Smith Plumbing Pty Ltd</span></div>
+              <div class="info-row"><span class="info-key">ABN</span><span class="info-val">12 345 678 901</span></div>
+              <div class="info-row"><span class="info-key">Entity Type</span><span class="info-val">Pty Ltd</span></div>
+              <div class="info-row"><span class="info-key">Industry</span><span class="info-val">Plumbing Services</span></div>
+              <div class="info-row"><span class="info-key">Employees</span><span class="info-val">7</span></div>
+              <div class="info-row"><span class="info-key">GST Registered</span><span class="info-val"><span class="badge badge-ok">Yes</span></span></div>
+              <div class="info-row"><span class="info-key">BAS Frequency</span><span class="info-val">Quarterly</span></div>
+              <div class="info-row"><span class="info-key">Xero Tenant</span><span class="info-val"><span class="badge badge-brand">Connected</span></span></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><span class="card-header-title">Contact Details</span></div>
+            <div class="card-body" style="font-size:13.5px;display:flex;flex-direction:column;gap:var(--s-4);">
+              <div><div style="font-size:11px;font-weight:700;color:var(--ink-400);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;">Contact Person</div><strong>John Smith</strong></div>
+              <div><div style="font-size:11px;font-weight:700;color:var(--ink-400);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;">Email</div><a href="mailto:john@smithplumbing.com.au" style="color:var(--teal-500);">john@smithplumbing.com.au</a></div>
+              <div><div style="font-size:11px;font-weight:700;color:var(--ink-400);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;">Phone</div><strong>0412 000 000</strong></div>
+              <div style="display:flex;gap:var(--s-2);">
+                <button class="btn btn-outline btn-sm" style="flex:1;" onclick="Notifications.sendReminder('smith-plumbing', 'email', 0)">📧 Email</button>
+                <button class="btn btn-outline btn-sm" style="flex:1;" onclick="Notifications.sendReminder('smith-plumbing', 'sms', 0)">📱 SMS</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><span class="card-header-title">Documents</span><button class="btn btn-ghost btn-sm">Upload</button></div>
+            <div class="card-body" style="padding-top:var(--s-3);padding-bottom:var(--s-3);">
+              <div class="doc-row" style="padding-left:0;padding-right:0;">
+                <div class="doc-icon">📄</div>
+                <div class="doc-info"><div class="doc-name">Q2 BAS Lodgement.pdf</div><div class="doc-meta">28 Jan 2025</div></div>
+                <div class="doc-size">142 KB</div>
+                <a href="#" style="color:var(--teal-500);font-size:12px;margin-left:8px;">↓</a>
+              </div>
+              <div class="doc-row" style="padding-left:0;padding-right:0;">
+                <div class="doc-icon">📄</div>
+                <div class="doc-info"><div class="doc-name">Super Receipt Dec 2024.pdf</div><div class="doc-meta">26 Jan 2025</div></div>
+                <div class="doc-size">89 KB</div>
+                <a href="#" style="color:var(--teal-500);font-size:12px;margin-left:8px;">↓</a>
+              </div>
+              <div class="doc-row" style="padding-left:0;padding-right:0;border-bottom:none;">
+                <div class="doc-icon">📄</div>
+                <div class="doc-info"><div class="doc-name">Annual Return FY2023–24.pdf</div><div class="doc-meta">12 Oct 2024</div></div>
+                <div class="doc-size">214 KB</div>
+                <a href="#" style="color:var(--teal-500);font-size:12px;margin-left:8px;">↓</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><span class="card-header-title">Reminder Settings</span></div>
+            <div class="card-body" style="font-size:13px;display:flex;flex-direction:column;gap:var(--s-4);">
+              <div style="display:flex;justify-content:space-between;align-items:center;"><span>Email 2 weeks before</span><label class="toggle"><input type="checkbox" checked><span class="toggle-track"></span></label></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;"><span>Email 1 week before</span><label class="toggle"><input type="checkbox" checked><span class="toggle-track"></span></label></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;"><span>Email 2 days before</span><label class="toggle"><input type="checkbox" checked><span class="toggle-track"></span></label></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;"><span>SMS on due date</span><label class="toggle"><input type="checkbox"><span class="toggle-track"></span></label></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="js/app.js"></script>
+</body>
+</html>

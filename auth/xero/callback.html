@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Connecting Xero — ComplianceEase</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--ink-950);">
+  <div style="text-align:center;font-family:'Instrument Sans',sans-serif;max-width:400px;padding:40px;">
+    <div id="status">
+      <div style="font-size:40px;margin-bottom:20px;">🔵</div>
+      <h2 style="color:white;font-size:1.4rem;font-weight:700;margin-bottom:8px;">Connecting Xero…</h2>
+      <p style="color:rgba(255,255,255,.4);font-size:14px;">Exchanging tokens and loading your organisation</p>
+      <div style="margin-top:24px;width:40px;height:40px;border:3px solid rgba(255,255,255,.1);border-top-color:var(--teal-400);border-radius:50%;animation:spin 1s linear infinite;margin:24px auto 0;"></div>
+    </div>
+  </div>
+  <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+  <script>
+    (async () => {
+      const params = new URLSearchParams(window.location.search);
+      const code   = params.get('code');
+      const state  = params.get('state');
+      const error  = params.get('error');
+      const statusEl = document.getElementById('status');
+
+      if (error) {
+        statusEl.innerHTML = `<div style="font-size:40px;margin-bottom:20px;">❌</div>
+          <h2 style="color:white;font-size:1.4rem;font-weight:700;">Connection cancelled</h2>
+          <p style="color:rgba(255,255,255,.4);">${error}</p>
+          <a href="../../settings.html" style="display:inline-block;margin-top:20px;padding:10px 20px;background:var(--teal-400);color:white;border-radius:10px;text-decoration:none;font-weight:600;">← Back to Settings</a>`;
+        return;
+      }
+
+      if (!code) {
+        statusEl.innerHTML = `<div style="font-size:40px;margin-bottom:20px;">⚠️</div>
+          <h2 style="color:white;font-size:1.4rem;font-weight:700;">No code received</h2>
+          <a href="../../settings.html" style="display:inline-block;margin-top:20px;padding:10px 20px;background:var(--teal-400);color:white;border-radius:10px;text-decoration:none;font-weight:600;">← Back to Settings</a>`;
+        return;
+      }
+
+      try {
+        // Send code to your backend to exchange for tokens
+        // PRODUCTION: uncomment this
+        // const res = await fetch('/api/xero/callback', {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify({ code, state })
+        // });
+        // const data = await res.json();
+        // if (!res.ok) throw new Error(data.error);
+
+        // DEMO: simulate success
+        await new Promise(r => setTimeout(r, 1500));
+        const data = { success: true, tenants: [{ id: 'demo-tenant', name: 'Smith Plumbing Pty Ltd' }] };
+
+        statusEl.innerHTML = `<div style="font-size:40px;margin-bottom:20px;">✅</div>
+          <h2 style="color:white;font-size:1.4rem;font-weight:700;margin-bottom:8px;">Xero Connected!</h2>
+          <p style="color:rgba(255,255,255,.5);font-size:14px;margin-bottom:20px;">
+            ${data.tenants.length} organisation${data.tenants.length !== 1 ? 's' : ''} connected
+          </p>
+          <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:16px;margin-bottom:20px;text-align:left;">
+            ${data.tenants.map(t => `<div style="color:rgba(255,255,255,.7);font-size:13px;padding:4px 0;">✓ ${t.name}</div>`).join('')}
+          </div>
+          <a href="../../dashboard.html" style="display:inline-block;padding:12px 24px;background:var(--teal-400);color:white;border-radius:10px;text-decoration:none;font-weight:600;">Go to Dashboard →</a>`;
+      } catch (err) {
+        statusEl.innerHTML = `<div style="font-size:40px;margin-bottom:20px;">❌</div>
+          <h2 style="color:white;">Connection failed</h2>
+          <p style="color:rgba(255,255,255,.4);font-size:13px;">${err.message}</p>
+          <a href="../../settings.html" style="display:inline-block;margin-top:20px;padding:10px 20px;background:var(--teal-400);color:white;border-radius:10px;text-decoration:none;font-weight:600;">← Back to Settings</a>`;
+      }
+    })();
+  </script>
+</body>
+</html>

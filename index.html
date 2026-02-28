@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ComplianceEase — Deadline & Compliance Management for Australian Bookkeepers</title>
+  <meta name="description" content="Never miss a client deadline again. ComplianceEase tracks BAS, super, PAYG and all ATO obligations for every client — automatically. Built for Australian bookkeepers.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Landing-only extras */
+    .workflow-steps { max-width: 680px; margin: 0 auto; }
+    .wf-step {
+      display: flex; gap: 20px; align-items: flex-start;
+      padding: 24px 0; border-bottom: 1px solid var(--border);
+    }
+    .wf-step:last-child { border-bottom: none; }
+    .wf-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal-400), var(--teal-600));
+      color: white; font-family: var(--font-display); font-weight: 900;
+      font-size: 14px; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; box-shadow: var(--shadow-teal);
+    }
+    .wf-step h4 { font-size: 15px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 4px; }
+    .wf-step p  { font-size: 13.5px; color: var(--text-secondary); line-height: 1.65; }
+
+    .dashboard-preview {
+      background: var(--ink-900);
+      border-radius: 20px;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: var(--shadow-xl), 0 0 60px rgba(26,173,157,.12);
+      max-width: 900px;
+      margin: var(--s-12) auto 0;
+    }
+    .preview-bar {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 16px;
+    }
+    .preview-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .preview-url {
+      background: rgba(255,255,255,.06);
+      border-radius: 6px; padding: 5px 14px;
+      font-size: 12px; color: rgba(255,255,255,.3);
+      flex: 1; text-align: center;
+    }
+    .preview-inner {
+      background: #f2f3f7;
+      border-radius: 12px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      min-height: 380px;
+    }
+    .preview-sidebar {
+      background: var(--ink-950);
+      padding: 18px 12px;
+    }
+    .preview-sidebar-logo {
+      font-family: var(--font-display); font-size: 13px; font-weight: 900;
+      color: white; display: flex; align-items: center; gap: 7px;
+      margin-bottom: 20px; letter-spacing: -0.03em;
+    }
+    .preview-sidebar-mark {
+      width: 22px; height: 22px; border-radius: 6px;
+      background: linear-gradient(135deg, var(--teal-400), var(--teal-600));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 900; color: white;
+    }
+    .preview-nav-item {
+      padding: 7px 10px; border-radius: 8px; font-size: 11px;
+      color: rgba(255,255,255,.45); margin-bottom: 2px;
+      display: flex; align-items: center; gap: 7px;
+    }
+    .preview-nav-item.active { background: rgba(26,173,157,.2); color: var(--teal-300); }
+    .preview-main { padding: 18px; }
+    .preview-stat-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 14px; }
+    .preview-stat {
+      background: white; border-radius: 10px; padding: 12px;
+      border: 1px solid var(--border);
+    }
+    .preview-stat-num { font-family: var(--font-display); font-size: 1.4rem; font-weight: 900; letter-spacing: -0.04em; }
+    .preview-stat-label { font-size: 9px; color: var(--ink-400); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+    .preview-card {
+      background: white; border-radius: 10px; padding: 14px;
+      border: 1px solid var(--border);
+    }
+    .preview-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--ink-50); font-size: 10px; }
+    .preview-row:last-child { border-bottom: none; }
+    .preview-badge-r { background: var(--red-50); color: var(--red-500); border-radius: 4px; padding: 2px 6px; font-size: 9px; font-weight: 700; }
+    .preview-badge-a { background: var(--amber-100); color: var(--amber-600); border-radius: 4px; padding: 2px 6px; font-size: 9px; font-weight: 700; }
+    .preview-badge-g { background: var(--green-100); color: var(--green-500); border-radius: 4px; padding: 2px 6px; font-size: 9px; font-weight: 700; }
+
+    .security-row {
+      display: flex; justify-content: center;
+      gap: var(--s-4); flex-wrap: wrap;
+    }
+    .security-pill {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--ink-50); border: 1px solid var(--border);
+      border-radius: var(--r-full);
+      padding: 8px 16px; font-size: 13px; color: var(--ink-600);
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="topnav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-mark">C</div>
+    ComplianceEase
+  </a>
+  <nav class="nav-links">
+    <a href="#features">Features</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="#workflow">How It Works</a>
+    <a href="#testimonials">Reviews</a>
+  </nav>
+  <div class="nav-actions">
+    <a href="dashboard.html" class="btn btn-ghost btn-sm">Log in</a>
+    <a href="onboarding.html" class="btn btn-primary btn-sm">Start Free Trial</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow-1"></div>
+  <div class="hero-glow-2"></div>
+
+  <div class="hero-chip anim anim-d1">
+    <span class="dot dot-teal dot-pulse"></span>
+    Built exclusively for Australian bookkeepers
+  </div>
+
+  <h1 class="anim anim-d2">
+    AI isn't taking your job.<br>
+    <span class="highlight">It's your</span> <span class="accent-word">sidekick.</span>
+  </h1>
+
+  <p class="hero-sub anim anim-d3">
+    More time with your family. More time for life. ComplianceEase handles the chasing, the reminders, and the emails — so you can focus on the work only <em>you</em> can do.
+  </p>
+
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:var(--s-6);" class="anim anim-d3">
+    <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:rgba(255,255,255,.55);"><span style="color:var(--teal-400);">✦</span> AI writes your client emails</span>
+    <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:rgba(255,255,255,.55);"><span style="color:var(--teal-400);">✦</span> Clients upload via their own portal</span>
+    <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:rgba(255,255,255,.55);"><span style="color:var(--teal-400);">✦</span> Photos from tradies — accepted &amp; organised</span>
+    <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:rgba(255,255,255,.55);"><span style="color:var(--teal-400);">✦</span> Xero &amp; MYOB sync in one click</span>
+  </div>
+
+  <div class="hero-cta anim anim-d4">
+    <a href="onboarding.html" class="btn btn-primary btn-xl">
+      Start 14-Day Free Trial
+    </a>
+    <a href="dashboard.html" class="btn btn-xl" style="background:rgba(255,255,255,.1);color:white;border:1px solid rgba(255,255,255,.2);">
+      View Live Demo →
+    </a>
+  </div>
+
+  <!-- Mini dashboard preview — updated with AI Tools sidebar -->
+  <div class="dashboard-preview anim anim-d4">
+    <div class="preview-bar">
+      <div class="preview-dot" style="background:#ff5f57;"></div>
+      <div class="preview-dot" style="background:#ffbd2e;"></div>
+      <div class="preview-dot" style="background:#28c940;"></div>
+      <div class="preview-url">app.complianceease.com.au/dashboard</div>
+    </div>
+    <div class="preview-inner">
+      <div class="preview-sidebar">
+        <div class="preview-sidebar-logo">
+          <div class="preview-sidebar-mark">C</div>
+          ComplianceEase
+        </div>
+        <div style="font-size:9px;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.08em;padding:8px 8px 4px;">Main</div>
+        <div class="preview-nav-item active">📊 Dashboard</div>
+        <div class="preview-nav-item">👥 Clients</div>
+        <div class="preview-nav-item">🔔 Alerts</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.08em;padding:8px 8px 4px;">AI Tools</div>
+        <div class="preview-nav-item" style="color:rgba(26,173,157,.9);">✉️ AI Emails</div>
+        <div class="preview-nav-item" style="color:rgba(26,173,157,.9);">🔗 Client Portal</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.08em;padding:8px 8px 4px;">Manage</div>
+        <div class="preview-nav-item">📄 Reports</div>
+        <div class="preview-nav-item">⚙️ Settings</div>
+      </div>
+      <div class="preview-main">
+        <div style="font-size:11px;color:var(--ink-400);margin-bottom:10px;">Good morning · 32 clients · <span style="color:var(--red-500);font-weight:700;">3 urgent today</span></div>
+        <div class="preview-stat-row">
+          <div class="preview-stat"><div class="preview-stat-num" style="color:var(--red-500);">3</div><div class="preview-stat-label">Urgent Today</div></div>
+          <div class="preview-stat"><div class="preview-stat-num" style="color:var(--amber-600);">8</div><div class="preview-stat-label">This Week</div></div>
+          <div class="preview-stat"><div class="preview-stat-num" style="color:var(--green-500);">47</div><div class="preview-stat-label">Done This Month</div></div>
+          <div class="preview-stat"><div class="preview-stat-num" style="color:var(--teal-500);">18</div><div class="preview-stat-label">Portal Active</div></div>
+        </div>
+        <div class="preview-card">
+          <div style="font-size:10px;font-weight:700;color:var(--ink-500);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">AI Risk — Needs Attention</div>
+          <div class="preview-row"><span style="font-weight:600;">Smith Plumbing</span><span class="preview-badge-r">88 HIGH · BAS TODAY</span></div>
+          <div class="preview-row"><span style="font-weight:600;">Jones Electrical</span><span class="preview-badge-r">84 HIGH · SUPER TODAY</span></div>
+          <div class="preview-row"><span style="font-weight:600;">Brown Construction</span><span class="preview-badge-a">61 MED · 2 DAYS</span></div>
+          <div class="preview-row"><span style="font-weight:600;">Anderson Cafe</span><span class="preview-badge-g">✅ Portal Approved</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-metrics">
+    <div class="anim anim-d1"><div class="hero-metric-num">6hrs</div><div class="hero-metric-label">Saved Per Week</div></div>
+    <div class="anim anim-d2"><div class="hero-metric-num">$0</div><div class="hero-metric-label">To Get Started</div></div>
+    <div class="anim anim-d3"><div class="hero-metric-num">3 min</div><div class="hero-metric-label">Setup Time</div></div>
+    <div class="anim anim-d4"><div class="hero-metric-num">24/7</div><div class="hero-metric-label">AI Working For You</div></div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-head">
+    <div class="section-eyebrow">Everything in one place</div>
+    <h2 class="section-title">Your AI sidekick does the<br>work you hate doing.</h2>
+    <p class="section-sub">Stop spending your evenings chasing clients and writing the same emails. Give that time back to your family.</p>
+  </div>
+  <div class="feature-grid">
+    <div class="feature-card anim">
+      <div class="feature-icon">✉️</div>
+      <div class="feature-title">AI Email Composer</div>
+      <p class="feature-body">Pick a client, pick an email type, click generate. AI writes a personalised, professional email using everything it knows about the client — their deadline, their software, their history. Edit and send in 30 seconds.</p>
+    </div>
+    <div class="feature-card anim anim-d1">
+      <div class="feature-icon">🔗</div>
+      <div class="feature-title">Client Portal — No More Email Chains</div>
+      <p class="feature-body">Every client gets a magic link. They click, they're in. They see their deadlines in plain English, upload documents, approve their BAS, and message you directly. Tradies can send photos — ATO accepts them.</p>
+    </div>
+    <div class="feature-card anim anim-d2">
+      <div class="feature-icon">📷</div>
+      <div class="feature-title">Photo Uploads — Built for Tradies</div>
+      <p class="feature-body">Your clients don't do PDFs. That's fine. The portal accepts photos straight from their phone camera. You get a thumbnail preview, a quality flag, and one-click "Request better copy" if needed. ATO compliant.</p>
+    </div>
+    <div class="feature-card anim anim-d1">
+      <div class="feature-icon">🧠</div>
+      <div class="feature-title">AI Risk Scoring</div>
+      <p class="feature-body">Every client gets a risk score updated daily. Late history, deadline proximity, employee count, response rate — all factored in. You see who needs attention before it becomes a problem.</p>
+    </div>
+    <div class="feature-card anim anim-d2">
+      <div class="feature-icon">🔵</div>
+      <div class="feature-title">Xero &amp; MYOB Sync</div>
+      <p class="feature-body">Connect a client's Xero or MYOB and pull their BAS figures directly. One-click sync. Real data. No logging into 30 different accounts every quarter.</p>
+    </div>
+    <div class="feature-card anim anim-d3">
+      <div class="feature-icon">🔒</div>
+      <div class="feature-title">Australian-Hosted, Encrypted</div>
+      <p class="feature-body">All data hosted in Sydney. AES-256 encryption. Privacy Act 1988 compliant. Your clients' data never leaves Australia. Not tax advice displayed on every lodgement.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE / AFTER -->
+<section class="section section-alt" id="workflow">
+  <div class="section-head">
+    <div class="section-eyebrow">Before &amp; After</div>
+    <h2 class="section-title">This is what changes.</h2>
+    <p class="section-sub">Real bookkeepers on what their practice looks like after switching to ComplianceEase.</p>
+  </div>
+  <div class="ba-grid">
+    <div class="ba-col anim">
+      <div class="ba-head before">❌ Before ComplianceEase</div>
+      <div class="ba-item before">Excel spreadsheet manually updated for every deadline</div>
+      <div class="ba-item before">Logging into 30+ Xero accounts separately every quarter</div>
+      <div class="ba-item before">Clients emailing "when is my BAS due?" constantly</div>
+      <div class="ba-item before">Manually calculating quarterly obligation dates</div>
+      <div class="ba-item before">6–8 hours per week on pure admin tracking</div>
+      <div class="ba-item before">Occasional missed deadline — panic and penalties</div>
+    </div>
+    <div class="ba-col anim anim-d1">
+      <div class="ba-head after">✓ After ComplianceEase</div>
+      <div class="ba-item after">Automated dashboard — nothing ever falls through</div>
+      <div class="ba-item after">All client BAS figures in one synced dashboard</div>
+      <div class="ba-item after">Clients get auto-reminders before you even think about it</div>
+      <div class="ba-item after">Obligations auto-calculated from ABN</div>
+      <div class="ba-item after">Under 2 hours per week on admin</div>
+      <div class="ba-item after">100% deadline visibility, total peace of mind</div>
+    </div>
+  </div>
+
+  <div class="workflow-steps" style="margin-top:64px;">
+    <div class="section-head" style="margin-bottom:32px;">
+      <div class="section-eyebrow">Monday Morning</div>
+      <h2 class="section-title" style="font-size:1.7rem;">Your new weekly routine.</h2>
+    </div>
+    <div class="card"><div class="card-body" style="padding:0 8px;">
+      <div class="wf-step anim">
+        <div class="wf-num">1</div>
+        <div>
+          <h4>Open dashboard — see everything due this week</h4>
+          <p>Red badges mean urgent today. Amber means this week. 30 seconds and you know your entire day.</p>
+        </div>
+      </div>
+      <div class="wf-step anim anim-d1">
+        <div class="wf-num">2</div>
+        <div>
+          <h4>Click into urgent clients — Xero figures already loaded</h4>
+          <p>No logging in. No manual pulls. BAS figures are ready. Just review, confirm, and prepare.</p>
+        </div>
+      </div>
+      <div class="wf-step anim anim-d2">
+        <div class="wf-num">3</div>
+        <div>
+          <h4>Lodge via ATO portal — mark done in ComplianceEase</h4>
+          <p>Click Lodge via ATO. Return, mark as lodged. Client gets an automatic confirmation. Deadline gone from your list.</p>
+        </div>
+      </div>
+      <div class="wf-step anim anim-d3">
+        <div class="wf-num">4</div>
+        <div>
+          <h4>Move to the next client — no spreadsheet updates</h4>
+          <p>Next quarter is already tracked. Nothing to add. You focus on actual bookkeeping, not admin.</p>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" id="testimonials">
+  <div class="section-head">
+    <div class="section-eyebrow">Testimonials</div>
+    <h2 class="section-title">Bookkeepers love ComplianceEase.</h2>
+  </div>
+  <div class="feature-grid" style="max-width:1000px;">
+    <div class="testimonial anim">
+      <p class="testimonial-body">"I manage 45 clients. Before this, I'd spend entire days just checking what was due. Now it takes me 20 minutes on Monday morning. ComplianceEase has completely changed how I run my practice."</p>
+      <div class="testimonial-author">
+        <div class="testimonial-av" style="background:linear-gradient(135deg,var(--teal-400),var(--teal-600));">SM</div>
+        <div>
+          <div class="testimonial-name">Sarah Mitchell</div>
+          <div class="testimonial-role">Mitchell Bookkeeping Services · 45 clients</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial anim anim-d1">
+      <p class="testimonial-body">"The Xero integration alone is worth the subscription. I used to log into 32 separate accounts every quarter. Now I see everyone's BAS figures in one place. Genuinely saves me hours every quarter."</p>
+      <div class="testimonial-author">
+        <div class="testimonial-av" style="background:linear-gradient(135deg,var(--amber-400),var(--amber-600));">DC</div>
+        <div>
+          <div class="testimonial-name">David Chen</div>
+          <div class="testimonial-role">Chen &amp; Associates · 32 clients</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial anim anim-d2">
+      <p class="testimonial-body">"My clients used to call me constantly about deadlines. Now they get automatic reminders and can check their own calendar. It's freed up enormous amounts of my time and made me look far more professional."</p>
+      <div class="testimonial-author">
+        <div class="testimonial-av" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9);">LT</div>
+        <div>
+          <div class="testimonial-name">Lisa Thompson</div>
+          <div class="testimonial-role">Thompson Accounting · 28 clients</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY -->
+<section class="section section-alt">
+  <div class="section-head">
+    <div class="section-eyebrow">Security &amp; Trust</div>
+    <h2 class="section-title">Built to Australian standards.</h2>
+    <p class="section-sub">Your clients' financial data is sensitive. We treat it that way.</p>
+  </div>
+  <div class="security-row">
+    <div class="security-pill anim">🇦🇺 Hosted in Australia (AWS Sydney)</div>
+    <div class="security-pill anim anim-d1">🔒 AES-256 Encryption at Rest</div>
+    <div class="security-pill anim anim-d2">🔐 TLS 1.3 in Transit</div>
+    <div class="security-pill anim anim-d3">🛡️ Mandatory 2FA on All Accounts</div>
+    <div class="security-pill anim">📋 Privacy Act 1988 Compliant</div>
+    <div class="security-pill anim anim-d1">🔑 SOC 2 Aligned (in progress)</div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-glow"></div>
+  <h2 class="section-title light anim" style="font-size:clamp(2rem,4vw,3rem);">Ready to run a tighter practice?</h2>
+  <p class="section-sub light anim anim-d1">Join 850+ Australian bookkeepers who've eliminated deadline stress.<br>14 days free. No credit card required.</p>
+  <div class="hero-cta anim anim-d2" style="margin-top:var(--s-8);">
+    <a href="onboarding.html" class="btn btn-primary btn-xl">Start Free Trial</a>
+    <a href="pricing.html" class="btn btn-xl" style="background:rgba(255,255,255,.1);color:white;border:1px solid rgba(255,255,255,.2);">View Pricing</a>
+  </div>
+  <div class="cta-trust-row anim anim-d3">
+    <div class="cta-trust-pill">🇦🇺 Australian-hosted</div>
+    <div class="cta-trust-pill">🔒 Encrypted &amp; secure</div>
+    <div class="cta-trust-pill">📋 Privacy Act compliant</div>
+    <div class="cta-trust-pill">✕ No lock-in contracts</div>
+    <div class="cta-trust-pill">💳 No credit card for trial</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">● ComplianceEase</div>
+      <p class="footer-tagline">Practice management software for Australian bookkeepers. Track BAS, super, PAYG and all ATO obligations across your entire client portfolio.</p>
+      <div class="footer-aus">🇦🇺 &nbsp;Made in Australia · ABN XX XXX XXX XXX</div>
+    </div>
+    <div class="footer-col">
+      <h5>Product</h5>
+      <a href="#features">Features</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="dashboard.html">Live Demo</a>
+      <a href="#">Integrations</a>
+    </div>
+    <div class="footer-col">
+      <h5>Resources</h5>
+      <a href="#">ATO Deadline Calendar</a>
+      <a href="#">BAS Lodgement Guide</a>
+      <a href="#">Super Due Dates 2025</a>
+      <a href="#">Help Centre</a>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <a href="#">About</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 ComplianceEase Pty Ltd · ABN XX XXX XXX XXX</span>
+    <span>Hosted on AWS ap-southeast-2 (Sydney) · Privacy Act 1988 Compliant</span>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>

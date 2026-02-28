@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Portal Manager — ComplianceEase</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app-shell">
+
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-mark">C</div>
+      <span class="sidebar-brand-name">ComplianceEase</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section">Main</div>
+      <a href="dashboard.html"      class="sidebar-link"><span class="link-icon">📊</span>Dashboard</a>
+      <a href="clients.html"        class="sidebar-link"><span class="link-icon">👥</span>All Clients</a>
+      <a href="alerts.html"         class="sidebar-link"><span class="link-icon">🔔</span>Alerts &amp; Deadlines<span class="link-badge">8</span></a>
+      <div class="sidebar-section">Tools</div>
+      <a href="ai-emails.html"      class="sidebar-link"><span class="link-icon">✉️</span>AI Emails</a>
+      <a href="portal-manager.html" class="sidebar-link active"><span class="link-icon">🔗</span>Client Portal</a>
+      <a href="reports.html"        class="sidebar-link"><span class="link-icon">📄</span>Reports</a>
+      <a href="documents.html"      class="sidebar-link"><span class="link-icon">🗂</span>Documents</a>
+      <a href="settings.html"       class="sidebar-link"><span class="link-icon">⚙️</span>Settings</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">YP</div>
+        <div>
+          <div class="sidebar-user-name">Your Practice</div>
+          <div class="sidebar-user-sub">32 clients · Pro Plan</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="app-main">
+    <div class="main-inner">
+
+      <div class="page-head-row">
+        <div class="page-head">
+          <div class="page-title">Client Portal Manager</div>
+          <div class="page-subtitle">Control what each client sees · Send magic links · Manage document requests</div>
+        </div>
+        <div style="display:flex;gap:var(--s-3);">
+          <button class="btn btn-ghost btn-sm" onclick="previewPortal()">👁 Preview Client View</button>
+          <button class="btn btn-primary btn-sm" onclick="inviteAll()">📨 Invite All Clients</button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-row" style="grid-template-columns:repeat(4,1fr);">
+        <div class="stat-card brand">
+          <div class="stat-label">Portal Active</div>
+          <div class="stat-value brand">18</div>
+          <div class="stat-meta">clients using it</div>
+        </div>
+        <div class="stat-card warning">
+          <div class="stat-label">Invite Pending</div>
+          <div class="stat-value warning">9</div>
+          <div class="stat-meta">sent, not activated</div>
+        </div>
+        <div class="stat-card danger">
+          <div class="stat-label">Docs Waiting</div>
+          <div class="stat-value danger">7</div>
+          <div class="stat-meta">pending uploads</div>
+        </div>
+        <div class="stat-card success">
+          <div class="stat-label">Approvals Today</div>
+          <div class="stat-value success">3</div>
+          <div class="stat-meta">BAS sign-offs</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 340px;gap:var(--s-5);align-items:start;">
+
+        <!-- Client portal cards -->
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s-4);">
+            <input class="form-input" type="text" placeholder="Search clients…" style="max-width:280px;">
+            <select class="form-select" style="width:auto;">
+              <option>All Status</option>
+              <option>Portal Active</option>
+              <option>Invite Pending</option>
+              <option>Not Invited</option>
+            </select>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:var(--s-4);">
+
+            <!-- Smith Plumbing — active -->
+            <div class="portal-client-card">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:var(--s-4);">
+                <div>
+                  <div style="font-weight:700;font-size:15px;color:var(--ink-900);">Smith Plumbing Pty Ltd</div>
+                  <div style="font-size:12px;color:var(--ink-400);margin-top:2px;">John Smith · john@smithplumbing.com.au</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:var(--s-3);">
+                  <span class="invite-chip active"><span class="portal-dot active"></span>Active</span>
+                  <span class="risk-score high">88 HIGH</span>
+                </div>
+              </div>
+
+              <!-- Document requests -->
+              <div style="font-size:11px;font-weight:700;color:var(--ink-400);text-transform:uppercase;letter-spacing:.06em;margin-bottom:var(--s-2);">Document Requests</div>
+              <div style="background:var(--ink-25);border-radius:var(--r-lg);padding:var(--s-3) var(--s-4);margin-bottom:var(--s-4);">
+                <div class="doc-req-row">
+                  <div class="req-status received">✓</div>
+                  <div style="flex:1;">Q3 Bank Statements</div>
+                  <span class="badge badge-ok" style="font-size:10px;">Received</span>
+                  <span style="font-size:11px;color:var(--ink-300);">Today 8:42am</span>
+                </div>
+                <div class="doc-req-row">
+                  <div class="req-status photo">📷</div>
+                  <div style="flex:1;">
+                    Purchase Receipts
+                    <span class="photo-badge">Photo</span>
+                  </div>
+                  <button class="btn btn-ghost btn-sm" onclick="reviewPhoto('smith-receipts')">Review</button>
+                  <span style="font-size:11px;color:var(--ink-300);">Today 9:01am</span>
+                </div>
+                <div class="doc-req-row" style="border-bottom:none;">
+                  <div class="req-status waiting">?</div>
+                  <div style="flex:1;">Payroll Summary</div>
+                  <button class="btn btn-ghost btn-sm" onclick="sendDocReminder('smith-payroll')">Remind</button>
+                  <span style="font-size:11px;color:var(--amber-600);font-weight:600;">Waiting</span>
+                </div>
+              </div>
+
+              <div style="display:flex;gap:var(--s-3);">
+                <button class="btn btn-ghost btn-sm" onclick="addDocRequest('smith')">+ Request Document</button>
+                <button class="btn btn-outline btn-sm" onclick="copyPortalLink('smith')">🔗 Copy Portal Link</button>
+                <button class="btn btn-primary btn-sm" onclick="openPortalFor('smith')">Open Portal →</button>
+              </div>
+            </div>
+
+            <!-- Jones Electrical — active + photo review needed -->
+            <div class="portal-client-card">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:var(--s-4);">
+                <div>
+                  <div style="font-weight:700;font-size:15px;color:var(--ink-900);">Jones Electrical Services</div>
+                  <div style="font-size:12px;color:var(--ink-400);margin-top:2px;">Sarah Jones · sarah@joneselectrical.com.au</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:var(--s-3);">
+                  <span class="invite-chip active"><span class="portal-dot active"></span>Active</span>
+                  <span class="risk-score high">84 HIGH</span>
+                </div>
+              </div>
+              <div style="background:var(--ink-25);border-radius:var(--r-lg);padding:var(--s-3) var(--s-4);margin-bottom:var(--s-4);">
+                <div class="doc-req-row">
+                  <div class="req-status photo">📷</div>
+                  <div style="flex:1;">
+                    Super Payment Screenshot
+                    <span class="photo-badge">Photo</span>
+                  </div>
+                  <button class="btn btn-primary btn-sm" onclick="reviewPhoto('jones-super')">⚠️ Review Quality</button>
+                  <span style="font-size:11px;color:var(--ink-300);">1hr ago</span>
+                </div>
+                <div class="doc-req-row" style="border-bottom:none;">
+                  <div class="req-status received">✓</div>
+                  <div style="flex:1;">Invoice Batch March</div>
+                  <span class="badge badge-ok" style="font-size:10px;">Received</span>
+                  <span style="font-size:11px;color:var(--ink-300);">Yesterday</span>
+                </div>
+              </div>
+              <!-- Photo review banner -->
+              <div class="review-quality-banner">
+                ⚠️ <strong>Photo upload received</strong> — check image quality before accepting as a record.
+                <button class="btn btn-ghost btn-sm" style="margin-left:auto;" onclick="requestBetterCopy('jones-super')">Request better copy</button>
+              </div>
+              <div style="display:flex;gap:var(--s-3);margin-top:var(--s-4);">
+                <button class="btn btn-ghost btn-sm" onclick="addDocRequest('jones')">+ Request Document</button>
+                <button class="btn btn-outline btn-sm" onclick="copyPortalLink('jones')">🔗 Portal Link</button>
+                <button class="btn btn-primary btn-sm" onclick="openPortalFor('jones')">Open Portal →</button>
+              </div>
+            </div>
+
+            <!-- Anderson Cafe — pending invite -->
+            <div class="portal-client-card" style="opacity:.85;">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:var(--s-4);">
+                <div>
+                  <div style="font-weight:700;font-size:15px;color:var(--ink-900);">Anderson Cafe</div>
+                  <div style="font-size:12px;color:var(--ink-400);margin-top:2px;">Lisa Anderson · lisa@andersoncafe.com.au</div>
+                </div>
+                <span class="invite-chip pending"><span class="portal-dot pending"></span>Invite Sent</span>
+              </div>
+              <div style="padding:var(--s-4);background:var(--amber-50);border:1px solid #fde68a;border-radius:var(--r-lg);font-size:13px;color:#92400e;margin-bottom:var(--s-4);">
+                Invite sent 3 days ago — Lisa hasn't activated their portal yet.
+              </div>
+              <div style="display:flex;gap:var(--s-3);">
+                <button class="btn btn-ghost btn-sm" onclick="resendInvite('anderson')">↺ Resend Invite</button>
+                <button class="btn btn-outline btn-sm" onclick="copyPortalLink('anderson')">🔗 Copy Link</button>
+              </div>
+            </div>
+
+            <!-- Brown Construction — not invited -->
+            <div class="portal-client-card" style="opacity:.75;">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:var(--s-4);">
+                <div>
+                  <div style="font-weight:700;font-size:15px;color:var(--ink-900);">Brown Construction Group</div>
+                  <div style="font-size:12px;color:var(--ink-400);margin-top:2px;">Mike Brown · mike@brownconstruction.com.au</div>
+                </div>
+                <span class="invite-chip none">Not Invited</span>
+              </div>
+              <div style="padding:var(--s-4);background:var(--ink-25);border:1px solid var(--border);border-radius:var(--r-lg);font-size:13px;color:var(--ink-500);margin-bottom:var(--s-4);">
+                Send Mike a portal invite so they can upload documents and approve lodgements directly — no more email chains.
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="sendInvite('brown')">📨 Send Portal Invite</button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right: controls + what clients see -->
+        <div style="display:flex;flex-direction:column;gap:var(--s-5);">
+
+          <!-- What clients see toggle -->
+          <div class="card">
+            <div class="card-header"><span class="card-header-title">What Clients Can See</span></div>
+            <div class="card-body" style="font-size:13.5px;display:flex;flex-direction:column;gap:var(--s-4);">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <div style="font-weight:600;">Their Deadlines</div>
+                  <div style="font-size:11px;color:var(--ink-400);">Plain English — no jargon</div>
+                </div>
+                <label class="toggle"><input type="checkbox" checked><span class="toggle-track"></span></label>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <div style="font-weight:600;">Document Upload</div>
+                  <div style="font-size:11px;color:var(--ink-400);">PDF, photo, any file</div>
+                </div>
+                <label class="toggle"><input type="checkbox" checked><span class="toggle-track"></span></label>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <div style="font-weight:600;">BAS Approval Button</div>
+                  <div style="font-size:11px;color:var(--ink-400);">Client signs off before lodge</div>
+                </div>
+                <label class="toggle"><input type="checkbox" checked><span class="toggle-track"></span></label>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <div style="font-weight:600;">Message Thread</div>
+                  <div style="font-size:11px;color:var(--ink-400);">Direct chat with you</div>
+                </div>
+                <label class="toggle"><input type="checkbox" checked><span class="toggle-track"></span></label>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <div style="font-weight:600;">BAS Dollar Figures</div>
+                  <div style="font-size:11px;color:var(--ink-400);">Show G1, GST amounts</div>
+                </div>
+                <label class="toggle"><input type="checkbox"><span class="toggle-track"></span></label>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <div style="font-weight:600;">Document History</div>
+                  <div style="font-size:11px;color:var(--ink-400);">Past uploads &amp; lodgements</div>
+                </div>
+                <label class="toggle"><input type="checkbox" checked><span class="toggle-track"></span></label>
+              </div>
+              <button class="btn btn-primary btn-sm" data-save-btn>Save Defaults</button>
+            </div>
+          </div>
+
+          <!-- Photo upload policy -->
+          <div class="card">
+            <div class="card-header"><span class="card-header-title">📷 Photo Upload Policy</span></div>
+            <div class="card-body" style="font-size:13px;">
+              <div style="padding:var(--s-4);background:var(--teal-50);border-radius:var(--r-lg);border:1px solid var(--teal-200);margin-bottom:var(--s-4);line-height:1.6;color:var(--teal-700);">
+                <strong>ATO approved:</strong> Digital copies including photos are accepted under the ATO's record-keeping rules — as long as they're legible and kept for 5 years.
+              </div>
+              <div style="display:flex;flex-direction:column;gap:var(--s-3);">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <span>Accept photo uploads</span>
+                  <label class="toggle"><input type="checkbox" checked><span class="toggle-track"></span></label>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <span>Flag for quality review</span>
+                  <label class="toggle"><input type="checkbox" checked><span class="toggle-track"></span></label>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <span>Allow camera on mobile</span>
+                  <label class="toggle"><input type="checkbox" checked><span class="toggle-track"></span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Portal link settings -->
+          <div class="card">
+            <div class="card-header"><span class="card-header-title">Portal Access</span></div>
+            <div class="card-body" style="font-size:13px;display:flex;flex-direction:column;gap:var(--s-3);">
+              <div style="padding:var(--s-4);background:var(--ink-25);border-radius:var(--r-lg);border:1px solid var(--border);">
+                <div style="font-size:11px;font-weight:700;color:var(--ink-400);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">How It Works</div>
+                <div style="color:var(--ink-600);line-height:1.7;">
+                  Clients get a <strong>magic link</strong> — no password needed. They click, they're in. Link expires after 30 days, then auto-renews.
+                </div>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span>Link expires after</span>
+                <select class="form-select" style="width:auto;">
+                  <option>30 days</option>
+                  <option>14 days</option>
+                  <option>Never</option>
+                </select>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span>Auto-renew links</span>
+                <label class="toggle"><input type="checkbox" checked><span class="toggle-track"></span></label>
+              </div>
+              <a href="portal/client.html" target="_blank" class="btn btn-outline btn-sm" style="text-align:center;">👁 Preview Client Portal</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Photo review modal -->
+<div id="photoModal" style="display:none;position:fixed;inset:0;background:rgba(12,14,18,.8);backdrop-filter:blur(6px);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:white;border-radius:20px;padding:36px;max-width:520px;width:100%;font-family:'Instrument Sans',sans-serif;">
+    <h3 style="font-family:'Cabinet Grotesk',sans-serif;font-size:1.2rem;font-weight:900;margin-bottom:6px;">Review Photo Upload</h3>
+    <p style="font-size:13px;color:#6b7280;margin-bottom:20px;">Check the image is legible and complete before accepting as a record.</p>
+    <div style="background:#f8fafc;border:2px dashed #d1d5db;border-radius:12px;padding:40px;text-align:center;margin-bottom:20px;">
+      <div style="font-size:48px;margin-bottom:8px;">📷</div>
+      <div style="font-size:13px;color:#9ca3af;">Photo thumbnail would appear here<br><span style="font-size:11px;">Powered by Supabase Storage</span></div>
+    </div>
+    <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:12px 16px;font-size:12px;color:#92400e;margin-bottom:20px;">
+      ⚠️ Always confirm the image shows the full document, correct date, and is legible before lodging.
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button onclick="acceptPhoto()" style="flex:1;background:#16a34a;color:white;border:none;padding:11px;border-radius:10px;font-weight:600;cursor:pointer;font-family:'Instrument Sans',sans-serif;">✓ Accept as Record</button>
+      <button onclick="requestBetterCopyNow()" style="flex:1;background:#f59e0b;color:white;border:none;padding:11px;border-radius:10px;font-weight:600;cursor:pointer;font-family:'Instrument Sans',sans-serif;">↺ Request Better Copy</button>
+      <button onclick="document.getElementById('photoModal').style.display='none'" style="background:#f1f5f9;color:#374151;border:none;padding:11px 16px;border-radius:10px;font-weight:600;cursor:pointer;font-family:'Instrument Sans',sans-serif;">Close</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+window.reviewPhoto = function(id) {
+  document.getElementById('photoModal').style.display = 'flex';
+};
+window.acceptPhoto = function() {
+  document.getElementById('photoModal').style.display = 'none';
+  Toast.show('Photo accepted as record — saved to documents', 'success');
+};
+window.requestBetterCopy = window.requestBetterCopyNow = function() {
+  document.getElementById('photoModal').style.display = 'none';
+  Toast.show('Request for better copy sent to client', 'info');
+};
+window.sendInvite = function(id) {
+  Toast.show('Portal invite sent! Client will receive a magic link by email', 'success');
+};
+window.resendInvite = function(id) {
+  Toast.show('Invite resent with a fresh magic link', 'success');
+};
+window.copyPortalLink = function(id) {
+  navigator.clipboard.writeText(window.location.origin + '/portal/client.html?token=demo-' + id);
+  Toast.show('Portal link copied — share with your client', 'success');
+};
+window.openPortalFor = function(id) {
+  window.open('portal/client.html?client=' + id, '_blank');
+};
+window.previewPortal = function() {
+  window.open('portal/client.html', '_blank');
+};
+window.inviteAll = function() {
+  Toast.show('Bulk invites sent to all uninvited clients', 'success');
+};
+window.sendDocReminder = function(id) {
+  Toast.show('Reminder sent to client about missing document', 'success');
+};
+window.addDocRequest = function(id) {
+  const doc = prompt('What document do you need from this client?');
+  if (doc) Toast.show(`Document request added: "${doc}"`, 'success');
+};
+</script>
+</body>
+</html>

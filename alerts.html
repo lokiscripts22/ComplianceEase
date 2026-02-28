@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alerts &amp; Deadlines — ComplianceEase</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="sidebar-brand-mark">C</div><span class="sidebar-brand-name">ComplianceEase</span></div>
+        <nav class="sidebar-nav">
+      <div class="sidebar-section">Main</div>
+      <a href="dashboard.html" class="sidebar-link  "><span class="link-icon">📊</span>Dashboard</a>
+      <a href="clients.html" class="sidebar-link  "><span class="link-icon">👥</span>All Clients</a>
+      <a href="alerts.html" class="sidebar-link active "><span class="link-icon">🔔</span>Alerts &amp; Deadlines<span class="link-badge">8</span></a>
+      <div class="sidebar-section">AI Tools</div>
+      <a href="ai-emails.html" class="sidebar-link  "><span class="link-icon">✉️</span>AI Emails</a>
+      <a href="portal-manager.html" class="sidebar-link  "><span class="link-icon">🔗</span>Client Portal</a>
+      <div class="sidebar-section">Manage</div>
+      <a href="reports.html" class="sidebar-link  "><span class="link-icon">📄</span>Reports</a>
+      <a href="documents.html" class="sidebar-link  "><span class="link-icon">🗂</span>Documents</a>
+      <a href="settings.html" class="sidebar-link  "><span class="link-icon">⚙️</span>Settings</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">KT</div>
+        <div><div class="sidebar-user-name">Karen Thompson</div><div class="sidebar-user-sub">32 clients · Pro Plan</div></div>
+      </div>
+    </div>
+  </aside>
+  <main class="app-main">
+    <div class="main-inner">
+      <div class="page-head-row">
+        <div class="page-head">
+          <div class="page-title">Alerts &amp; Deadlines</div>
+          <div class="page-subtitle">All upcoming obligations across your 32-client portfolio</div>
+        </div>
+        <div style="display:flex;gap:var(--s-3);">
+          <button class="btn btn-ghost btn-sm">Export</button>
+          <button class="btn btn-primary btn-sm">Mark All Reviewed</button>
+        </div>
+      </div>
+
+      <div class="stats-row" style="grid-template-columns:repeat(3,1fr);">
+        <div class="stat-card danger"><div class="stat-label">Overdue / Today</div><div class="stat-value danger">3</div><div class="stat-meta">Needs action now</div></div>
+        <div class="stat-card warning"><div class="stat-label">This Week</div><div class="stat-value warning">5</div><div class="stat-meta">Next 7 days</div></div>
+        <div class="stat-card brand"><div class="stat-label">This Month</div><div class="stat-value brand">15</div><div class="stat-meta">Next 30 days</div></div>
+      </div>
+
+      <div class="card" style="margin-bottom:var(--s-5);">
+        <div class="card-header" style="background:var(--red-50);">
+          <span class="card-header-title" style="color:var(--red-500);">🔴 Urgent — Due Today (3)</span>
+        </div>
+        <table class="table">
+          <thead><tr><th>Client</th><th>Obligation</th><th>Type</th><th>Due</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Smith Plumbing Pty Ltd</strong></td>
+              <td style="font-size:13px;">Quarterly BAS — Q3 FY2024–25</td>
+              <td><span class="badge badge-brand">BAS</span></td>
+              <td style="color:var(--red-500);font-weight:700;font-size:13px;">28 Mar 2025</td>
+              <td><span class="badge badge-urgent">Due Today</span></td>
+              <td><a href="client-detail.html" class="btn btn-primary btn-sm">Lodge</a></td>
+            </tr>
+            <tr>
+              <td><strong>Jones Electrical Services</strong></td>
+              <td style="font-size:13px;">Super Guarantee — Q3</td>
+              <td><span class="badge badge-brand">Super</span></td>
+              <td style="color:var(--red-500);font-weight:700;font-size:13px;">28 Mar 2025</td>
+              <td><span class="badge badge-urgent">Due Today</span></td>
+              <td><button class="btn btn-primary btn-sm" onclick="markComplete(this)">Mark Done</button></td>
+            </tr>
+            <tr>
+              <td><strong>Brown Construction Group</strong></td>
+              <td style="font-size:13px;">PAYG Withholding — March</td>
+              <td><span class="badge badge-brand">PAYG</span></td>
+              <td style="color:var(--red-500);font-weight:700;font-size:13px;">28 Mar 2025</td>
+              <td><span class="badge badge-urgent">Due Today</span></td>
+              <td><button class="btn btn-primary btn-sm" onclick="markComplete(this)">Mark Done</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card" style="margin-bottom:var(--s-5);">
+        <div class="card-header" style="background:var(--amber-50);">
+          <span class="card-header-title" style="color:var(--amber-600);">🟡 Due This Week (5)</span>
+        </div>
+        <table class="table">
+          <thead><tr><th>Client</th><th>Obligation</th><th>Type</th><th>Due Date</th><th>Days Left</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Smith Plumbing Pty Ltd</strong></td>
+              <td style="font-size:13px;">PAYG Withholding — March</td>
+              <td><span class="badge badge-brand">PAYG</span></td>
+              <td style="font-size:13px;">30 Mar 2025</td>
+              <td style="color:var(--amber-600);font-weight:700;font-family:var(--font-display);">2 days</td>
+              <td><button class="btn btn-ghost btn-sm" onclick="markComplete(this)">Mark Done</button></td>
+            </tr>
+            <tr>
+              <td><strong>Anderson Cafe</strong></td>
+              <td style="font-size:13px;">Quarterly BAS — Q3</td>
+              <td><span class="badge badge-brand">BAS</span></td>
+              <td style="font-size:13px;">2 Apr 2025</td>
+              <td style="color:var(--amber-600);font-weight:700;font-family:var(--font-display);">5 days</td>
+              <td><button class="btn btn-ghost btn-sm" onclick="markComplete(this)">Mark Done</button></td>
+            </tr>
+            <tr>
+              <td><strong>Wilson Landscaping</strong></td>
+              <td style="font-size:13px;">Super Guarantee — Q3</td>
+              <td><span class="badge badge-brand">Super</span></td>
+              <td style="font-size:13px;">2 Apr 2025</td>
+              <td style="color:var(--amber-600);font-weight:700;font-family:var(--font-display);">5 days</td>
+              <td><button class="btn btn-ghost btn-sm" onclick="markComplete(this)">Mark Done</button></td>
+            </tr>
+            <tr>
+              <td><strong>Metro Retail Group</strong></td>
+              <td style="font-size:13px;">PAYG Withholding — March</td>
+              <td><span class="badge badge-brand">PAYG</span></td>
+              <td style="font-size:13px;">3 Apr 2025</td>
+              <td style="color:var(--amber-600);font-weight:700;font-family:var(--font-display);">6 days</td>
+              <td><button class="btn btn-ghost btn-sm" onclick="markComplete(this)">Mark Done</button></td>
+            </tr>
+            <tr>
+              <td><strong>Peak Fitness Studio</strong></td>
+              <td style="font-size:13px;">PAYG Withholding — March</td>
+              <td><span class="badge badge-brand">PAYG</span></td>
+              <td style="font-size:13px;">3 Apr 2025</td>
+              <td style="color:var(--amber-600);font-weight:700;font-family:var(--font-display);">6 days</td>
+              <td><button class="btn btn-ghost btn-sm" onclick="markComplete(this)">Mark Done</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-header-title">Later This Month (7)</span>
+        </div>
+        <table class="table">
+          <thead><tr><th>Client</th><th>Obligation</th><th>Type</th><th>Due Date</th><th>Days Left</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Multiple clients</strong></td>
+              <td style="font-size:13px;">Monthly BAS — March</td>
+              <td><span class="badge badge-brand">BAS</span></td>
+              <td style="font-size:13px;">21 Apr 2025</td>
+              <td style="color:var(--green-500);font-weight:700;font-family:var(--font-display);">24 days</td>
+              <td><button class="btn btn-ghost btn-sm">View</button></td>
+            </tr>
+            <tr>
+              <td><strong>Brown Construction Group</strong></td>
+              <td style="font-size:13px;">Workers Comp Renewal</td>
+              <td><span class="badge badge-brand">Licence</span></td>
+              <td style="font-size:13px;">15 Apr 2025</td>
+              <td style="color:var(--green-500);font-weight:700;font-family:var(--font-display);">18 days</td>
+              <td><button class="btn btn-ghost btn-sm">View</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="js/app.js"></script>
+</body>
+</html>

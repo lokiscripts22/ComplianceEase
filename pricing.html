@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing — ComplianceEase</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { background: var(--ink-25); }
+    .pricing-hero {
+      background: linear-gradient(180deg, var(--ink-950) 0%, var(--ink-900) 100%);
+      padding: var(--s-16) 5% var(--s-20);
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .pricing-hero-glow {
+      position: absolute; top: -150px; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 400px;
+      background: radial-gradient(ellipse, rgba(26,173,157,.2) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .faq-item { padding: var(--s-5) 0; border-bottom: 1px solid var(--border); }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 800; font-size: 15px; letter-spacing: -0.02em; margin-bottom: var(--s-2); color: var(--ink-900); }
+    .faq-a { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+    range-label { font-size: 11px; color: var(--ink-400); }
+    input[type="range"] {
+      width: 100%; height: 6px; border-radius: 3px;
+      -webkit-appearance: none; appearance: none;
+      background: var(--border); outline: none;
+      margin: var(--s-3) 0;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--teal-400);
+      box-shadow: var(--shadow-teal); cursor: pointer;
+      border: 2px solid white;
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--teal-400); border: 2px solid white;
+      box-shadow: var(--shadow-teal); cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<header class="topnav">
+  <a href="index.html" class="nav-logo"><div class="nav-logo-mark">C</div>ComplianceEase</a>
+  <nav class="nav-links">
+    <a href="index.html#features">Features</a>
+    <a href="pricing.html" class="active">Pricing</a>
+    <a href="index.html#workflow">How It Works</a>
+  </nav>
+  <div class="nav-actions">
+    <a href="dashboard.html" class="btn btn-ghost btn-sm">Log in</a>
+    <a href="onboarding.html" class="btn btn-primary btn-sm">Start Free Trial</a>
+  </div>
+</header>
+
+<div class="pricing-hero">
+  <div class="pricing-hero-glow"></div>
+  <div class="hero-chip anim" style="background:rgba(26,173,157,.12);border:1px solid rgba(26,173,157,.3);color:var(--teal-300);display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:999px;font-size:13px;font-weight:600;margin-bottom:var(--s-6);">
+    Simple, transparent pricing
+  </div>
+  <h1 class="anim anim-d1" style="font-size:clamp(2.4rem,5vw,3.8rem);color:white;letter-spacing:-0.04em;line-height:1.1;margin-bottom:var(--s-5);font-family:var(--font-display);font-weight:900;">
+    Pay only for clients<br>you actively manage.
+  </h1>
+  <p class="anim anim-d2" style="font-size:17px;color:rgba(255,255,255,.55);max-width:480px;margin:0 auto;line-height:1.7;">
+    No base fee. No hidden charges. No long-term contracts. Just straightforward per-client pricing that scales with your practice.
+  </p>
+</div>
+
+<section class="section">
+  <div style="max-width:580px;margin:0 auto;">
+
+    <!-- Main price card -->
+    <div class="price-card anim" style="margin-top:-60px;position:relative;z-index:2;">
+      <div class="price-card-accent-line"></div>
+      <div style="display:inline-flex;align-items:center;gap:6px;background:var(--teal-100);color:var(--teal-600);padding:5px 14px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:var(--s-6);">
+        ✦ Everything included
+      </div>
+      <div class="price-amount"><sup>$</sup>39</div>
+      <div class="price-per">per client / per month — starting price</div>
+      <ul class="price-list">
+        <li><span class="check">✓</span> Unlimited obligation tracking (BAS, Super, PAYG, licences)</li>
+        <li><span class="check">✓</span> Xero integration — live BAS data sync</li>
+        <li><span class="check">✓</span> Automated email &amp; SMS reminders</li>
+        <li><span class="check">✓</span> Client portal (read-only client view)</li>
+        <li><span class="check">✓</span> Secure document storage (10GB per client)</li>
+        <li><span class="check">✓</span> ATO Business Portal direct links</li>
+        <li><span class="check">✓</span> ABN-based obligation auto-detection</li>
+        <li><span class="check">✓</span> 2FA mandatory — Australian-hosted</li>
+        <li><span class="check">✓</span> Priority email support</li>
+      </ul>
+      <a href="onboarding.html" class="btn btn-primary btn-lg" style="width:100%;font-size:16px;">
+        Start 14-Day Free Trial
+      </a>
+      <p style="font-size:12px;color:var(--text-tertiary);margin-top:10px;">No credit card required. Cancel anytime. Trial expires automatically if not upgraded.</p>
+    </div>
+
+    <!-- Volume tiers -->
+    <div class="anim anim-d1" style="text-align:center;margin:var(--s-5) 0;font-size:13px;color:var(--text-secondary);">
+      Managing 20+ clients? Pricing drops automatically:
+    </div>
+    <div class="tier-table-wrap anim anim-d1">
+      <div class="tier-row head">
+        <span>Clients</span><span>Per Client</span><span>Example Total</span>
+      </div>
+      <div class="tier-row" id="tier-1">
+        <span><strong>1–20</strong></span><span class="tier-price">$39 /mo</span><span style="color:var(--ink-500);">$39–$780</span>
+      </div>
+      <div class="tier-row active-tier" id="tier-2">
+        <span><strong>21–50</strong> <span style="font-size:10px;color:var(--teal-500);font-weight:700;">✦ Most Common</span></span>
+        <span class="tier-price">$35 /mo</span><span style="color:var(--ink-500);">$735–$1,750</span>
+      </div>
+      <div class="tier-row" id="tier-3">
+        <span><strong>51–100</strong></span><span class="tier-price">$29 /mo</span><span style="color:var(--ink-500);">$1,479–$2,900</span>
+      </div>
+      <div class="tier-row" id="tier-4">
+        <span><strong>100+</strong></span><span class="tier-price">Custom</span>
+        <a href="mailto:hello@complianceease.com.au" style="color:var(--teal-500);font-size:13px;font-weight:600;">Contact us →</a>
+      </div>
+    </div>
+
+    <!-- CALCULATOR -->
+    <div class="calc-widget anim anim-d2">
+      <div style="text-align:center;margin-bottom:var(--s-5);">
+        <div style="font-family:var(--font-display);font-size:16px;font-weight:800;letter-spacing:-0.02em;margin-bottom:3px;">Calculate Your Monthly Cost</div>
+        <div style="font-size:13px;color:var(--text-tertiary);">Drag the slider to your client count</div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px;">
+        <span style="font-size:13px;color:var(--text-secondary);">Clients managed:</span>
+        <span style="font-family:var(--font-display);font-size:2rem;font-weight:900;color:var(--ink-900);letter-spacing:-0.04em;" id="clientCount">30</span>
+      </div>
+      <input type="range" id="clientSlider" min="1" max="150" value="30">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--ink-300);margin-bottom:var(--s-6);">
+        <span>1</span><span>50</span><span>100</span><span>150</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s-4);">
+        <div style="background:white;border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--s-5);text-align:center;">
+          <div style="font-size:11px;font-weight:700;color:var(--ink-400);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">Your Monthly Cost</div>
+          <div class="calc-result-num" id="monthlyTotal">$1,050</div>
+        </div>
+        <div style="background:white;border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--s-5);text-align:center;">
+          <div style="font-size:11px;font-weight:700;color:var(--ink-400);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">Time Saved Value*</div>
+          <div class="calc-result-num" style="color:var(--green-500);" id="timeSavings">$2,700</div>
+        </div>
+      </div>
+      <p style="font-size:11px;color:var(--ink-300);text-align:center;margin-top:var(--s-3);">*Estimated value based on ~6hrs/week saved at $75/hr avg bookkeeper rate</p>
+    </div>
+
+    <!-- FAQ -->
+    <div style="margin-top:var(--s-12);">
+      <h3 style="font-family:var(--font-display);font-size:1.4rem;font-weight:900;letter-spacing:-0.04em;margin-bottom:var(--s-6);text-align:center;">Common Questions</h3>
+      <div class="card"><div class="card-body">
+        <div class="faq-item">
+          <div class="faq-q">What counts as a "client"?</div>
+          <div class="faq-a">Each business entity you manage is one client. Smith Plumbing Pty Ltd = 1 client. If the same director has 3 businesses, that's 3 clients. You pay per entity, not per person.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Do I need a credit card to start?</div>
+          <div class="faq-a">No. The 14-day free trial is completely free with no credit card required. If you don't upgrade, your account expires automatically — no surprise charges, no action needed from you.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Can I add or remove clients mid-month?</div>
+          <div class="faq-a">Yes. Add clients any time and you're charged pro-rata for remaining days. Remove a client and billing stops at the next cycle. You always pay for only what you use.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Where is my data stored?</div>
+          <div class="faq-a">100% in Australia on AWS Sydney (ap-southeast-2). We're Privacy Act 1988 compliant. Your client data never leaves Australia and we'll never sell or share it with third parties.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Does the Xero integration cost extra?</div>
+          <div class="faq-a">No. Xero integration is included for all clients. MYOB integration is coming in a future update — also included at no extra cost.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">How do I cancel?</div>
+          <div class="faq-a">Cancel from Settings → Billing in under 30 seconds. No lock-in, no penalties, no questions asked. Your data is available to export for 30 days after cancellation.</div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div style="text-align:center;margin-top:var(--s-12);padding:var(--s-10);background:var(--ink-950);border-radius:var(--r-2xl);">
+      <h3 style="font-family:var(--font-display);font-size:1.5rem;font-weight:900;color:white;letter-spacing:-0.04em;margin-bottom:10px;">Start free. No risk.</h3>
+      <p style="font-size:14px;color:rgba(255,255,255,.5);margin-bottom:var(--s-6);line-height:1.7;">14 days, all features, no credit card. If it doesn't save you time in the first two weeks, just cancel — takes 30 seconds.</p>
+      <a href="onboarding.html" class="btn btn-primary btn-lg" style="font-size:15px;">Get Started Free →</a>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-bottom" style="justify-content:center;text-align:center;border-top:1px solid rgba(255,255,255,.07);padding-top:var(--s-6);">
+    <span>© 2025 ComplianceEase Pty Ltd · <a href="index.html" style="color:rgba(255,255,255,.4);">Home</a> · <a href="pricing.html" style="color:rgba(255,255,255,.4);">Pricing</a> · Privacy Policy · Terms</span>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>

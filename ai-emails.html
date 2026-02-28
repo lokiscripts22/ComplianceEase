@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Email Composer — ComplianceEase</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app-shell">
+
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-mark">C</div>
+      <span class="sidebar-brand-name">ComplianceEase</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section">Main</div>
+      <a href="dashboard.html"    class="sidebar-link"><span class="link-icon">📊</span>Dashboard</a>
+      <a href="clients.html"      class="sidebar-link"><span class="link-icon">👥</span>All Clients</a>
+      <a href="alerts.html"       class="sidebar-link"><span class="link-icon">🔔</span>Alerts &amp; Deadlines<span class="link-badge">8</span></a>
+      <div class="sidebar-section">Tools</div>
+      <a href="ai-emails.html"    class="sidebar-link active"><span class="link-icon">✉️</span>AI Emails</a>
+      <a href="portal-manager.html" class="sidebar-link"><span class="link-icon">🔗</span>Client Portal</a>
+      <a href="reports.html"      class="sidebar-link"><span class="link-icon">📄</span>Reports</a>
+      <a href="documents.html"    class="sidebar-link"><span class="link-icon">🗂</span>Documents</a>
+      <a href="settings.html"     class="sidebar-link"><span class="link-icon">⚙️</span>Settings</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">YP</div>
+        <div>
+          <div class="sidebar-user-name">Your Practice</div>
+          <div class="sidebar-user-sub">32 clients · Pro Plan</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="app-main">
+    <div class="main-inner">
+
+      <div class="page-head-row">
+        <div class="page-head">
+          <div style="margin-bottom:var(--s-2);">
+            <span class="sidekick-badge">AI Sidekick — Email Composer</span>
+          </div>
+          <div class="page-title">AI Email Composer</div>
+          <div class="page-subtitle">Write every client email in seconds — personalised, professional, on-brand</div>
+        </div>
+        <div style="display:flex;gap:var(--s-3);">
+          <button class="btn btn-ghost btn-sm">📋 Templates</button>
+          <button class="btn btn-primary btn-sm">📨 Sent History</button>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 300px;gap:var(--s-5);align-items:start;">
+
+        <!-- Composer -->
+        <div style="display:flex;flex-direction:column;gap:var(--s-5);">
+
+          <!-- Step 1: Select client -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-header-title">1 — Who are you emailing?</span>
+            </div>
+            <div class="card-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s-4);">
+                <div class="form-group" style="margin:0;">
+                  <label class="form-label">Client</label>
+                  <select class="form-select" id="emailClient" onchange="updateClientContext()">
+                    <option value="">Select a client…</option>
+                    <option value="smith" data-abn="12 345 678 901" data-deadline="BAS due today" data-days="0" data-software="Xero" data-employees="7" data-contact="John Smith" data-email="john@smithplumbing.com.au">Smith Plumbing Pty Ltd</option>
+                    <option value="jones" data-abn="98 765 432 109" data-deadline="Super due today" data-days="0" data-software="Xero" data-employees="12" data-contact="Sarah Jones" data-email="sarah@joneselectrical.com.au">Jones Electrical Services</option>
+                    <option value="brown" data-abn="45 678 901 234" data-deadline="PAYG due in 2 days" data-days="2" data-software="MYOB" data-employees="23" data-contact="Mike Brown" data-email="mike@brownconstruction.com.au">Brown Construction Group</option>
+                    <option value="anderson" data-abn="78 901 234 567" data-deadline="BAS due in 5 days" data-days="5" data-software="Xero" data-employees="4" data-contact="Lisa Anderson" data-email="lisa@andersoncafe.com.au">Anderson Cafe</option>
+                    <option value="wilson" data-abn="11 222 333 444" data-deadline="Super due in 5 days" data-days="5" data-software="Xero" data-employees="6" data-contact="Dave Wilson" data-email="dave@wilsonlandscaping.com.au">Wilson Landscaping</option>
+                  </select>
+                </div>
+                <div class="form-group" style="margin:0;">
+                  <label class="form-label">Send to</label>
+                  <input class="form-input" id="emailTo" type="email" placeholder="Client email address">
+                </div>
+              </div>
+              <!-- Client context pill — shown when client selected -->
+              <div id="clientContextPill" style="display:none;margin-top:var(--s-3);padding:var(--s-3) var(--s-4);background:var(--teal-50);border:1px solid var(--teal-200);border-radius:var(--r-md);font-size:12.5px;color:var(--teal-700);display:none;">
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Email type -->
+          <div class="card">
+            <div class="card-header"><span class="card-header-title">2 — What kind of email?</span></div>
+            <div class="card-body">
+              <div class="email-type-grid" id="emailTypeGrid">
+                <button class="email-type-btn" data-type="deadline-reminder" onclick="selectEmailType(this)">
+                  <span class="et-icon">⏰</span>
+                  <div class="et-name">Deadline Reminder</div>
+                  <div class="et-desc">BAS, super, PAYG coming up — polite heads up</div>
+                </button>
+                <button class="email-type-btn" data-type="urgent-overdue" onclick="selectEmailType(this)">
+                  <span class="et-icon">🚨</span>
+                  <div class="et-name">Urgent — Due Today</div>
+                  <div class="et-desc">Action needed now, professional urgency</div>
+                </button>
+                <button class="email-type-btn" data-type="doc-request" onclick="selectEmailType(this)">
+                  <span class="et-icon">📎</span>
+                  <div class="et-name">Document Request</div>
+                  <div class="et-desc">Ask for receipts, invoices, bank statements</div>
+                </button>
+                <button class="email-type-btn" data-type="bas-ready" onclick="selectEmailType(this)">
+                  <span class="et-icon">✅</span>
+                  <div class="et-name">BAS Ready — Please Approve</div>
+                  <div class="et-desc">BAS is ready, asking client to review &amp; sign off</div>
+                </button>
+                <button class="email-type-btn" data-type="eofy-prep" onclick="selectEmailType(this)">
+                  <span class="et-icon">📅</span>
+                  <div class="et-name">EOFY Prep</div>
+                  <div class="et-desc">Get ahead of June 30 — what the client needs to do</div>
+                </button>
+                <button class="email-type-btn" data-type="overdue-notice" onclick="selectEmailType(this)">
+                  <span class="et-icon">🔴</span>
+                  <div class="et-name">Overdue Notice</div>
+                  <div class="et-desc">Deadline passed — firm but professional follow up</div>
+                </button>
+                <button class="email-type-btn" data-type="welcome" onclick="selectEmailType(this)">
+                  <span class="et-icon">👋</span>
+                  <div class="et-name">Welcome New Client</div>
+                  <div class="et-desc">Onboarding intro + what to expect from you</div>
+                </button>
+                <button class="email-type-btn" data-type="missing-info" onclick="selectEmailType(this)">
+                  <span class="et-icon">🔍</span>
+                  <div class="et-name">Missing Info Follow-Up</div>
+                  <div class="et-desc">Second or third chase — still waiting on something</div>
+                </button>
+                <button class="email-type-btn" data-type="good-news" onclick="selectEmailType(this)">
+                  <span class="et-icon">🎉</span>
+                  <div class="et-name">Good News / All Done</div>
+                  <div class="et-desc">BAS lodged, super paid — keeping client in the loop</div>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Tone + extra context -->
+          <div class="card" id="toneCard" style="display:none;">
+            <div class="card-header"><span class="card-header-title">3 — Tone &amp; any extra context</span></div>
+            <div class="card-body">
+              <div style="display:flex;gap:var(--s-2);margin-bottom:var(--s-4);">
+                <button class="tone-btn active" onclick="setTone(this,'professional')">Professional</button>
+                <button class="tone-btn" onclick="setTone(this,'friendly')">Friendly</button>
+                <button class="tone-btn" onclick="setTone(this,'firm')">Firm</button>
+                <button class="tone-btn" onclick="setTone(this,'casual')">Casual</button>
+              </div>
+              <div class="form-group" style="margin:0;">
+                <label class="form-label">Anything extra to mention? <span style="font-weight:400;color:var(--ink-400);">(optional)</span></label>
+                <input class="form-input" id="extraContext" type="text" placeholder="e.g. 'mention they still owe last month's invoices' or 'they called yesterday about this'">
+              </div>
+              <button class="btn btn-primary" style="margin-top:var(--s-4);width:100%;" onclick="generateEmail()">
+                ✦ Generate Email with AI
+              </button>
+            </div>
+          </div>
+
+          <!-- Output -->
+          <div id="emailOutputSection" style="display:none;">
+            <div id="emailOutputInner"></div>
+          </div>
+
+        </div>
+
+        <!-- Right: sent history + tips -->
+        <div style="display:flex;flex-direction:column;gap:var(--s-5);">
+
+          <!-- Stats -->
+          <div class="card">
+            <div class="card-body" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s-3);">
+              <div style="text-align:center;padding:var(--s-3);background:var(--teal-50);border-radius:var(--r-lg);border:1px solid var(--teal-200);">
+                <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:900;color:var(--teal-600);letter-spacing:-0.04em;">47</div>
+                <div style="font-size:11px;color:var(--teal-600);font-weight:600;">Emails sent</div>
+                <div style="font-size:10px;color:var(--ink-400);">This month</div>
+              </div>
+              <div style="text-align:center;padding:var(--s-3);background:var(--ink-25);border-radius:var(--r-lg);border:1px solid var(--border);">
+                <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:900;color:var(--ink-800);letter-spacing:-0.04em;">3.2h</div>
+                <div style="font-size:11px;color:var(--ink-600);font-weight:600;">Time saved</div>
+                <div style="font-size:10px;color:var(--ink-400);">Est. this month</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sent history -->
+          <div class="card">
+            <div class="card-header"><span class="card-header-title">Recently Sent</span></div>
+            <div>
+              <div class="sent-email-row">
+                <div class="se-type" style="background:var(--red-50);">🚨</div>
+                <div style="flex:1;">
+                  <div style="font-weight:600;font-size:13px;">Smith Plumbing</div>
+                  <div style="font-size:11px;color:var(--ink-400);">Urgent — BAS Due Today</div>
+                </div>
+                <div style="font-size:11px;color:var(--ink-300);">9:14am</div>
+              </div>
+              <div class="sent-email-row">
+                <div class="se-type" style="background:var(--amber-50);">📎</div>
+                <div style="flex:1;">
+                  <div style="font-weight:600;font-size:13px;">Anderson Cafe</div>
+                  <div style="font-size:11px;color:var(--ink-400);">Document Request</div>
+                </div>
+                <div style="font-size:11px;color:var(--ink-300);">Yesterday</div>
+              </div>
+              <div class="sent-email-row">
+                <div class="se-type" style="background:#f0fdf4;">✅</div>
+                <div style="flex:1;">
+                  <div style="font-weight:600;font-size:13px;">Jones Electrical</div>
+                  <div style="font-size:11px;color:var(--ink-400);">BAS Ready — Approve</div>
+                </div>
+                <div style="font-size:11px;color:var(--ink-300);">Yesterday</div>
+              </div>
+              <div class="sent-email-row">
+                <div class="se-type" style="background:var(--teal-50);">⏰</div>
+                <div style="flex:1;">
+                  <div style="font-weight:600;font-size:13px;">Wilson Landscaping</div>
+                  <div style="font-size:11px;color:var(--ink-400);">Deadline Reminder</div>
+                </div>
+                <div style="font-size:11px;color:var(--ink-300);">26 Mar</div>
+              </div>
+              <div class="sent-email-row">
+                <div class="se-type" style="background:#eff6ff;">🎉</div>
+                <div style="flex:1;">
+                  <div style="font-weight:600;font-size:13px;">Brown Construction</div>
+                  <div style="font-size:11px;color:var(--ink-400);">All Done — BAS Lodged</div>
+                </div>
+                <div style="font-size:11px;color:var(--ink-300);">25 Mar</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI tip -->
+          <div class="ai-risk-card">
+            <div class="ai-risk-title">How this works</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.55);line-height:1.7;">
+              The AI knows your client's name, what's overdue, their software, employee count, and your tone preference. Every email is written fresh — not a template.
+            </div>
+            <div style="margin-top:var(--s-4);font-size:12px;color:rgba(255,255,255,.3);line-height:1.6;">
+              Powered by Claude (Anthropic) via your backend API key. See <code style="color:rgba(255,255,255,.4);">backend/ai-emails.js</code>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+let selectedTone = 'professional';
+let selectedEmailType = null;
+
+function updateClientContext() {
+  const sel = document.getElementById('emailClient');
+  const opt = sel.options[sel.selectedIndex];
+  const pill = document.getElementById('clientContextPill');
+  if (!opt.value) { pill.style.display='none'; return; }
+  const contact = opt.dataset.contact;
+  const email   = opt.dataset.email;
+  const deadline= opt.dataset.deadline;
+  const software= opt.dataset.software;
+  const employees=opt.dataset.employees;
+  document.getElementById('emailTo').value = email;
+  pill.style.display = 'flex';
+  pill.style.gap = '16px';
+  pill.style.flexWrap = 'wrap';
+  pill.innerHTML = `
+    <span>👤 <strong>${contact}</strong></span>
+    <span>📧 ${email}</span>
+    <span>⚡ <strong style="color:var(--red-500);">${deadline}</strong></span>
+    <span>💻 ${software}</span>
+    <span>👷 ${employees} employees</span>
+  `;
+}
+
+function selectEmailType(btn) {
+  document.querySelectorAll('.email-type-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedEmailType = btn.dataset.type;
+  document.getElementById('toneCard').style.display = 'block';
+  document.getElementById('toneCard').scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+function setTone(btn, tone) {
+  selectedTone = tone;
+  document.querySelectorAll('.tone-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+async function generateEmail() {
+  const clientSel = document.getElementById('emailClient');
+  const opt = clientSel.options[clientSel.selectedIndex];
+  if (!opt.value) { Toast.show('Please select a client first', 'error'); return; }
+  if (!selectedEmailType) { Toast.show('Please select an email type', 'error'); return; }
+
+  const extraCtx = document.getElementById('extraContext').value;
+  const section  = document.getElementById('emailOutputSection');
+  const inner    = document.getElementById('emailOutputInner');
+
+  section.style.display = 'block';
+  inner.innerHTML = `
+    <div class="card">
+      <div class="ai-composing">
+        <div class="ai-orb"></div>
+        <div style="font-size:14px;color:var(--ink-500);font-weight:500;">Writing your email…</div>
+        <div style="font-size:12px;color:var(--ink-300);">Personalising for ${opt.text}</div>
+      </div>
+    </div>
+  `;
+  section.scrollIntoView({ behavior:'smooth', block:'nearest' });
+
+  // Build context for AI
+  const clientContext = {
+    name:      opt.text,
+    contact:   opt.dataset.contact,
+    abn:       opt.dataset.abn,
+    deadline:  opt.dataset.deadline,
+    daysUntil: parseInt(opt.dataset.days),
+    software:  opt.dataset.software,
+    employees: parseInt(opt.dataset.employees),
+  };
+
+  const emailTypeLabels = {
+    'deadline-reminder': 'Deadline Reminder',
+    'urgent-overdue':    'Urgent — Due Today',
+    'doc-request':       'Document Request',
+    'bas-ready':         'BAS Ready for Approval',
+    'eofy-prep':         'EOFY Preparation',
+    'overdue-notice':    'Overdue Notice',
+    'welcome':           'Welcome to Our Practice',
+    'missing-info':      'Missing Information Follow-Up',
+    'good-news':         'Good News — All Done',
+  };
+
+  // PRODUCTION: POST to /api/ai-emails/generate
+  // const res = await fetch('/api/ai-emails/generate', {
+  //   method: 'POST',
+  //   headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + await Auth.getToken() },
+  //   body: JSON.stringify({ client: clientContext, emailType: selectedEmailType, tone: selectedTone, extraContext: extraCtx })
+  // });
+  // const data = await res.json();
+  // const emailText = data.email;
+
+  // DEMO: Generate realistic email locally (in production this comes from Claude API)
+  await new Promise(r => setTimeout(r, 1800));
+  const emailText = generateDemoEmail(clientContext, selectedEmailType, selectedTone, extraCtx);
+  const subjectLine = generateSubject(clientContext, selectedEmailType);
+
+  inner.innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <span class="card-header-title">✦ AI-Generated Email</span>
+        <div style="display:flex;gap:var(--s-2);">
+          <button class="btn btn-ghost btn-sm" onclick="regenerateEmail()">↺ Regenerate</button>
+          <button class="btn btn-primary btn-sm" onclick="sendEmail()">📨 Send Email</button>
+        </div>
+      </div>
+      <div class="card-body" style="padding-bottom:0;">
+        <div class="form-group" style="margin-bottom:var(--s-3);">
+          <label class="form-label">Subject</label>
+          <input class="form-input" type="text" id="emailSubject" value="${subjectLine}">
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label">To</label>
+          <input class="form-input" type="email" value="${opt.dataset.email}" readonly style="background:var(--ink-25);">
+        </div>
+      </div>
+      <div class="email-output-wrap" style="border-radius:0;border-left:none;border-right:none;border-bottom:none;">
+        <div class="email-output-bar">
+          <span class="email-output-label">Email Body — Edit before sending</span>
+          <div style="display:flex;gap:var(--s-2);align-items:center;">
+            <span style="font-size:11px;color:var(--ink-400);">Tone:</span>
+            <button class="tone-btn ${selectedTone==='professional'?'active':''}" onclick="setToneAndRewrite(this,'professional')">Professional</button>
+            <button class="tone-btn ${selectedTone==='friendly'?'active':''}" onclick="setToneAndRewrite(this,'friendly')">Friendly</button>
+            <button class="tone-btn ${selectedTone==='firm'?'active':''}" onclick="setToneAndRewrite(this,'firm')">Firm</button>
+            <button class="tone-btn ${selectedTone==='casual'?'active':''}" onclick="setToneAndRewrite(this,'casual')">Casual</button>
+          </div>
+        </div>
+        <textarea class="email-textarea" id="finalEmailBody">${emailText}</textarea>
+        <div class="email-footer">
+          <button class="btn btn-ghost btn-sm" onclick="copyEmail()">📋 Copy</button>
+          <span style="font-size:11px;color:var(--ink-300);margin-left:auto;">Always review before sending · Not legal advice</span>
+          <button class="btn btn-primary" onclick="sendEmail()">📨 Send Now</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+window.regenerateEmail = async function() {
+  document.getElementById('emailOutputInner').innerHTML = `
+    <div class="card"><div class="ai-composing">
+      <div class="ai-orb"></div>
+      <div style="font-size:14px;color:var(--ink-500);">Rewriting…</div>
+    </div></div>`;
+  await new Promise(r => setTimeout(r, 1200));
+  generateEmail();
+};
+
+window.setToneAndRewrite = function(btn, tone) {
+  setTone(btn, tone);
+  regenerateEmail();
+};
+
+window.copyEmail = function() {
+  const body = document.getElementById('finalEmailBody')?.value || '';
+  navigator.clipboard.writeText(body).then(() => Toast.show('Email copied to clipboard', 'success'));
+};
+
+window.sendEmail = function() {
+  const to  = document.querySelector('#emailOutputInner input[type="email"]')?.value;
+  const sub = document.getElementById('emailSubject')?.value;
+  // PRODUCTION: POST to /api/ai-emails/send (uses Resend)
+  Toast.show(`Email sent to ${to}`, 'success');
+  setTimeout(() => { document.getElementById('emailOutputSection').style.display='none'; }, 2500);
+};
+
+function generateSubject(client, type) {
+  const days = client.daysUntil;
+  const subjects = {
+    'deadline-reminder': `Action required: ${client.deadline}`,
+    'urgent-overdue':    `URGENT: ${client.deadline} — please action today`,
+    'doc-request':       `Quick request — documents needed for your ${client.deadline.split(' ')[0]}`,
+    'bas-ready':         `Your BAS is ready — please review and approve`,
+    'eofy-prep':         `Getting ready for EOFY — what you need to know`,
+    'overdue-notice':    `Overdue: ${client.deadline} — please contact us today`,
+    'welcome':           `Welcome to the practice — here's what to expect`,
+    'missing-info':      `Following up — still waiting on a couple of things`,
+    'good-news':         `All done! Your ${client.deadline.split(' ')[0]} has been lodged`,
+  };
+  return subjects[type] || 'Following up on your compliance obligations';
+}
+
+function generateDemoEmail(client, type, tone, extra) {
+  const greeting = tone === 'casual' ? `Hi ${client.contact.split(' ')[0]},`
+    : tone === 'firm' ? `Dear ${client.contact},`
+    : `Hi ${client.contact},`;
+
+  const sign = `Kind regards,\nYour Bookkeeper\n\n---\nSent via ComplianceEase · Not tax advice`;
+
+  const templates = {
+    'deadline-reminder': `${greeting}\n\nJust a friendly reminder that your ${client.deadline}.\n\nPlease make sure everything is in order before the deadline. If you need to provide any documents or information, now's a great time to get those through to me.\n\n${extra ? `Also — ${extra}\n\n` : ''}Let me know if you have any questions.\n\n${sign}`,
+    'urgent-overdue': `${greeting}\n\nThis is an urgent reminder — your ${client.deadline}.\n\nI need you to action this today. If there's anything stopping you from getting this done, please call or message me immediately so we can work something out.\n\nYour ATO obligations are time-sensitive and late lodgement can result in penalties.\n\n${extra ? `${extra}\n\n` : ''}Please reply to this email or call me straight away.\n\n${sign}`,
+    'doc-request': `${greeting}\n\nI'm getting your ${client.deadline.split(' ')[0]} ready and I need a few things from you before I can proceed:\n\n• Bank statements for last quarter\n• Any invoices for large purchases\n• Payroll records (if applicable)\n\nYou can send these via the secure client portal — just click your portal link — or email them directly to me. Photos of documents are fine if that's easier.\n\n${extra ? `${extra}\n\n` : ''}The sooner I have these the better. Thanks in advance!\n\n${sign}`,
+    'bas-ready': `${greeting}\n\nGreat news — I've prepared your BAS for ${client.deadline.split('due')[0].trim()} and it's ready for your review.\n\nHere's a quick summary:\n• Total sales this quarter are looking solid\n• Your net BAS payable has been calculated\n• All figures have been sourced directly from ${client.software}\n\nPlease log into your client portal to review the figures and click Approve to authorise me to lodge. If anything looks off, just message me through the portal.\n\n${extra ? `${extra}\n\n` : ''}Once you approve, I'll lodge with the ATO straight away.\n\n${sign}`,
+    'eofy-prep': `${greeting}\n\nEnd of financial year is coming up fast — 30 June will be here before we know it! Here's what we need to get sorted in the next few weeks:\n\n• Reconcile all bank accounts\n• Finalise any outstanding invoices\n• Superannuation payments up to date\n• Single Touch Payroll finalisation (if you have employees)\n• Any large asset purchases to note for depreciation\n\nI'll be reaching out to each of my clients individually as we get closer, but it's worth starting to pull things together now.\n\n${extra ? `${extra}\n\n` : ''}Happy to jump on a quick call if you want to talk through anything.\n\n${sign}`,
+    'overdue-notice': `${greeting}\n\nI'm following up because your ${client.deadline} is now overdue.\n\nThis is time-sensitive — the ATO can issue penalties for late lodgement, and I want to make sure we avoid that for you. I need to hear from you today so we can get this sorted.\n\nPlease reply to this email, call me, or message through your client portal as soon as possible.\n\n${extra ? `${extra}\n\n` : ''}${sign}`,
+    'welcome': `${greeting}\n\nWelcome to the practice — I'm really glad to have you on board!\n\nHere's a quick overview of how we'll work together:\n\n• I'll handle all your BAS, super, and PAYG obligations\n• You'll receive reminders well before every deadline\n• I'll send you a secure portal link shortly — that's where you can upload documents and approve lodgements\n• My door (and inbox) is always open if something comes up\n\nTo get started, I'll need a few things from you. I'll send a separate email with that list.\n\n${extra ? `${extra}\n\n` : ''}Really looking forward to working with you!\n\n${sign}`,
+    'missing-info': `${greeting}\n\nI'm just following up — I'm still waiting on a couple of things before I can finalise your ${client.deadline.split(' ')[0]}.\n\nI sent a request through earlier and wanted to make sure it didn't get lost in the inbox. Could you please send those through as soon as you can?\n\nIf it's easier, you can upload directly through your client portal — photos are fine if that's quicker for you.\n\n${extra ? `${extra}\n\n` : ''}Thanks for your help with this!\n\n${sign}`,
+    'good-news': `${greeting}\n\nJust letting you know — your ${client.deadline.split(' ')[0].replace('due','')} has been lodged successfully with the ATO! ✓\n\nEverything went through without any issues. You'll receive a confirmation from the ATO shortly.\n\nA copy of the lodgement has been saved to your documents on the portal for your records.\n\n${extra ? `${extra}\n\n` : ''}Nice work getting everything in on time. Speak soon!\n\n${sign}`,
+  };
+  return templates[type] || `${greeting}\n\nJust following up regarding your compliance obligations.\n\n${extra ? `${extra}\n\n` : ''}Please get in touch if you have any questions.\n\n${sign}`;
+}
+</script>
+</body>
+</html>

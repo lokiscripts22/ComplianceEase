@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start Free Trial — ComplianceEase</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="ob-shell">
+
+  <!-- LEFT PANEL -->
+  <div class="ob-left">
+    <div class="ob-left-glow"></div>
+    <a href="index.html" class="ob-left-logo">
+      <div style="width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--teal-400),var(--teal-600));display:flex;align-items:center;justify-content:center;font-weight:900;color:white;font-size:14px;">C</div>
+      ComplianceEase
+    </a>
+    <div>
+      <h2 style="font-family:var(--font-display);font-size:clamp(1.8rem,3vw,2.6rem);font-weight:900;color:white;letter-spacing:-0.04em;line-height:1.15;margin-bottom:var(--s-5);">
+        Your practice,<br>
+        <span style="background:linear-gradient(135deg,var(--teal-300),var(--teal-400));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">under control.</span>
+      </h2>
+      <p style="font-size:15px;color:rgba(255,255,255,.5);line-height:1.7;max-width:380px;margin-bottom:var(--s-10);">
+        Set up your ComplianceEase account in under 5 minutes. 14-day free trial — no credit card needed.
+      </p>
+      <div class="ob-perk"><div class="ob-perk-check">✓</div>14-day free trial, no credit card required</div>
+      <div class="ob-perk"><div class="ob-perk-check">✓</div>Import clients from Xero in one click</div>
+      <div class="ob-perk"><div class="ob-perk-check">✓</div>ATO deadlines auto-calculated from ABN</div>
+      <div class="ob-perk"><div class="ob-perk-check">✓</div>Data hosted in Australia · Privacy Act compliant</div>
+      <div class="ob-perk"><div class="ob-perk-check">✓</div>Cancel anytime · No lock-in contracts</div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="ob-right">
+    <div class="ob-prog"><div class="ob-prog-fill" id="ob-prog-fill" style="width:0%"></div></div>
+    <div class="ob-labels">
+      <span class="ob-label active" id="ob-lbl-1">1 · Your Details</span>
+      <span class="ob-label" id="ob-lbl-2">2 · Your Practice</span>
+      <span class="ob-label" id="ob-lbl-3">3 · Import Clients</span>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="ob-step show" id="ob-step-1">
+      <div class="ob-step-title">Welcome. Let's set you up.</div>
+      <div class="ob-step-sub">Create your account — takes under 2 minutes.</div>
+      <div class="form-group">
+        <label class="form-label">Your Full Name</label>
+        <input class="form-input" type="text" placeholder="e.g. Karen Thompson">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input class="form-input" type="email" placeholder="karen@yourpractice.com.au">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mobile Number</label>
+        <input class="form-input" type="tel" placeholder="04XX XXX XXX">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" placeholder="Min. 8 characters">
+      </div>
+      <button class="btn btn-primary btn-lg" style="width:100%;margin-top:8px;" onclick="goStep(2)">Continue →</button>
+      <p style="font-size:12px;color:var(--text-tertiary);text-align:center;margin-top:var(--s-4);">
+        By continuing you agree to our <a href="#" style="color:var(--teal-500);">Terms</a> and <a href="#" style="color:var(--teal-500);">Privacy Policy</a>.
+      </p>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="ob-step" id="ob-step-2">
+      <div class="ob-step-title">About your practice.</div>
+      <div class="ob-step-sub">Helps us personalise your compliance calendar.</div>
+      <div class="form-group">
+        <label class="form-label">Practice Name</label>
+        <input class="form-input" type="text" placeholder="e.g. Thompson Bookkeeping Services">
+      </div>
+      <div class="form-group">
+        <label class="form-label">ABN (optional)</label>
+        <input class="form-input" type="text" placeholder="XX XXX XXX XXX">
+      </div>
+      <div class="form-group">
+        <label class="form-label">How many clients do you currently manage?</label>
+        <select class="form-select">
+          <option>1–10 clients</option>
+          <option>11–25 clients</option>
+          <option selected>26–50 clients</option>
+          <option>51–100 clients</option>
+          <option>100+ clients</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Primary accounting software your clients use</label>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
+          <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--r-md);cursor:pointer;font-size:14px;transition:all .15s;" class="radio-card">
+            <input type="checkbox" checked style="accent-color:var(--teal-500);"> Xero (most common)
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--r-md);cursor:pointer;font-size:14px;transition:all .15s;" class="radio-card">
+            <input type="checkbox" style="accent-color:var(--teal-500);"> MYOB
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--r-md);cursor:pointer;font-size:14px;transition:all .15s;" class="radio-card">
+            <input type="checkbox" style="accent-color:var(--teal-500);"> QuickBooks
+          </label>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:8px;">
+        <button class="btn btn-ghost" onclick="goStep(1)">← Back</button>
+        <button class="btn btn-primary btn-lg" style="flex:1;" onclick="goStep(3)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="ob-step" id="ob-step-3">
+      <div class="ob-step-title">Almost in! 🎉</div>
+      <div class="ob-step-sub">How would you like to import your clients?</div>
+
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:var(--s-6);">
+        <label class="radio-card" style="display:flex;flex-direction:column;align-items:flex-start;padding:16px;border:1.5px solid var(--border);border-radius:var(--r-lg);cursor:pointer;transition:all .15s;">
+          <div style="display:flex;align-items:center;gap:10px;width:100%;font-weight:600;font-size:14px;">
+            <input type="radio" name="import" checked style="accent-color:var(--teal-500);"> 🔵 Import from Xero
+          </div>
+          <div style="font-size:12px;color:var(--text-tertiary);margin-top:4px;margin-left:24px;">Connect your Xero account — clients imported automatically in one click.</div>
+        </label>
+        <label class="radio-card" style="display:flex;flex-direction:column;align-items:flex-start;padding:16px;border:1.5px solid var(--border);border-radius:var(--r-lg);cursor:pointer;transition:all .15s;">
+          <div style="display:flex;align-items:center;gap:10px;width:100%;font-weight:600;font-size:14px;">
+            <input type="radio" name="import" style="accent-color:var(--teal-500);"> 📊 Import via CSV
+          </div>
+          <div style="font-size:12px;color:var(--text-tertiary);margin-top:4px;margin-left:24px;">Upload a spreadsheet with client names, ABNs and contact details.</div>
+        </label>
+        <label class="radio-card" style="display:flex;flex-direction:column;align-items:flex-start;padding:16px;border:1.5px solid var(--border);border-radius:var(--r-lg);cursor:pointer;transition:all .15s;">
+          <div style="display:flex;align-items:center;gap:10px;width:100%;font-weight:600;font-size:14px;">
+            <input type="radio" name="import" style="accent-color:var(--teal-500);"> ✏️ Add clients manually
+          </div>
+          <div style="font-size:12px;color:var(--text-tertiary);margin-top:4px;margin-left:24px;">Start fresh and add clients one by one.</div>
+        </label>
+      </div>
+
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-ghost" onclick="goStep(2)">← Back</button>
+        <a href="dashboard.html" class="btn btn-primary btn-lg" style="flex:1;text-align:center;">Create My Account →</a>
+      </div>
+      <p style="font-size:12px;color:var(--text-tertiary);text-align:center;margin-top:var(--s-4);">14-day free trial begins now. No credit card required.</p>
+    </div>
+
+  </div>
+</div>
+<script src="js/app.js"></script>
+<script>
+  // Init onboarding progress
+  document.addEventListener('DOMContentLoaded', () => goStep(1));
+</script>
+</body>
+</html>
